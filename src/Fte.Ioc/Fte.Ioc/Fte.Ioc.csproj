@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContainerProvider.cs" />
     <Compile Include="Facade\Container.cs" />
     <Compile Include="Facade\IContainer.cs" />
     <Compile Include="LifeCycle.cs" />
