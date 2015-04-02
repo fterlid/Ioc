@@ -9,7 +9,7 @@ namespace Fte.Ioc.Facade
 		private readonly ITypeRegistry _typeRegistry;
 		private readonly ITypeResolver _typeResolver;
 
-		internal Container(ITypeRegistry typeRegistry, ITypeResolver typeResolver)
+		public Container(ITypeRegistry typeRegistry, ITypeResolver typeResolver)
 		{
 			_typeRegistry = typeRegistry;
 			_typeResolver = typeResolver;
