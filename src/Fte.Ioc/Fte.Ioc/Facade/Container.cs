@@ -4,7 +4,7 @@ using Fte.Ioc.Resolver;
 
 namespace Fte.Ioc.Facade
 {
-	public class Container : IContainer
+	internal class Container : IContainer
 	{
 		private readonly ITypeRegistry _typeRegistry;
 		private readonly ITypeResolver _typeResolver;
