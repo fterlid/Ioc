@@ -1,5 +1,4 @@
-﻿using Fte.Ioc.Exceptions;
-using Fte.Ioc.Registry;
+﻿using Fte.Ioc.Registry;
 using Fte.Ioc.Resolver;
 using Fte.Ioc.Tests.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,20 +14,30 @@ namespace Fte.Ioc.Tests.Resolver
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void Ctor_TypeRegistryAsNull_ThrowsException()
 		{
-			new TypeResolver(null);
+			var objectFactoryMock = new Mock<IObjectFactory>();
+			new TypeResolver(null, objectFactoryMock.Object);
 		}
 
 		[TestMethod]
-		public void Resolve_InputTypeIsRegistered_ReturnsObjectOfInputType()
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Ctor_ObjectFactoryAsNull_ThrowsException()
+		{
+			var registryMock = new Mock<ITypeRegistry>();
+			new TypeResolver(registryMock.Object, null);
+		}
+
+		[TestMethod]
+		public void Resolve_InputTypeIsRegistered_ObjectIsCreated()
 		{
 			var registryItem = new TypeRegistryItem(typeof(ITestService), typeof(TestService), LifeCycle.Singleton);
 			var registryMock = new Mock<ITypeRegistry>();
 			registryMock.Setup(x => x.GetRegistryItem(It.IsAny<Type>())).Returns(registryItem);
-			var resolver = new TypeResolver(registryMock.Object);
+			var objectFactoryMock = new Mock<IObjectFactory>();
+            var resolver = new TypeResolver(registryMock.Object, objectFactoryMock.Object);
 
-			var obj = resolver.Resolve(typeof(ITestService));
+			resolver.Resolve(typeof(ITestService));
 
-			Assert.IsInstanceOfType(obj, typeof(ITestService));
+			objectFactoryMock.Verify(x => x.Create(typeof(TestService)), Times.Once);
 		}
 	}
 }

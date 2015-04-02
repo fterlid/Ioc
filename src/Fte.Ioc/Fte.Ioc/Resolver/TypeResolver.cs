@@ -6,20 +6,23 @@ namespace Fte.Ioc.Resolver
 {
 	internal class TypeResolver : ITypeResolver
 	{
-		private ITypeRegistry _typeRegistry;
+		private readonly ITypeRegistry _typeRegistry;
+		private readonly IObjectFactory _objectFactory;
 
-		public TypeResolver(ITypeRegistry typeRegistry)
+		public TypeResolver(ITypeRegistry typeRegistry, IObjectFactory objectFactory)
 		{
 			if (typeRegistry == null) throw new ArgumentNullException("typeRegistry");
+			if (objectFactory == null) throw new ArgumentNullException("objectFactory");
 
 			_typeRegistry = typeRegistry;
+			_objectFactory = objectFactory;
 		}
 
 		public object Resolve(Type typeToResolve)
 		{
 			var registryItem = _typeRegistry.GetRegistryItem(typeToResolve);
 
-			return Activator.CreateInstance(registryItem.ConcreteType);
+			return _objectFactory.Create(registryItem.ConcreteType);
 		}
 	}
 }

@@ -49,7 +49,9 @@
     <Compile Include="Registry\ITypeRegistry.cs" />
     <Compile Include="Registry\TypeRegistry.cs" />
     <Compile Include="Registry\TypeRegistryItem.cs" />
+    <Compile Include="Resolver\IObjectFactory.cs" />
     <Compile Include="Resolver\ITypeResolver.cs" />
+    <Compile Include="Resolver\ObjectFactory.cs" />
     <Compile Include="Resolver\TypeResolver.cs" />
   </ItemGroup>
   <ItemGroup />
