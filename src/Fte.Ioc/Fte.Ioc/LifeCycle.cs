@@ -2,5 +2,7 @@
 {
 	public enum LifeCycle
 	{
+		Transient,
+		Singleton
 	}
 }
