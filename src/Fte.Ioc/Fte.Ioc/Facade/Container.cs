@@ -28,9 +28,9 @@ namespace Fte.Ioc.Facade
 			_typeRegistry.Register<TAbstraction, TConcrete>(lifeCycle);
 		}
 
-		public T Resolve<T>(Type typeToResolve) where T : class
+		public T Resolve<T>() where T : class
 		{
-			return Resolve(typeToResolve) as T;
+			return (T) Resolve(typeof(T));
 		}
 
 		public object Resolve(Type typeToResolve)

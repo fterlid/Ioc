@@ -8,7 +8,7 @@ namespace Fte.Ioc.Facade
 
 		void Register<TAbstraction, TConcrete>(LifeCycle lifeCycle) where TConcrete : TAbstraction;
 
-		T Resolve<T>(Type typeToResolve) where T : class;
+		T Resolve<T>() where T : class;
 
 		object Resolve(Type typeToResolve);
     }

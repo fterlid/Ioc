@@ -63,7 +63,7 @@ namespace Fte.Ioc.Facade.Tests
 		[TestMethod]
 		public void Resolve_Parameterized_CallsServiceWithCorrectType()
 		{
-			_container.Resolve<ITestService>(typeof(ITestService));
+			_container.Resolve<ITestService>();
 
 			_resolverMock.Verify(x => x.Resolve(typeof(ITestService)), Times.Once);
 		}
