@@ -5,7 +5,7 @@ using Fte.Ioc.Tests.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace Fte.Ioc.Tests
+namespace Fte.Ioc.Facade.Tests
 {
 	[TestClass]
 	public class ContainerTest
