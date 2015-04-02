@@ -1,4 +1,5 @@
-﻿using Fte.Ioc.Registry;
+﻿using Fte.Ioc.Facade;
+using Fte.Ioc.Registry;
 using Fte.Ioc.Resolver;
 using Fte.Ioc.Tests.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -11,7 +12,7 @@ namespace Fte.Ioc.Tests
 	{
 		private Mock<ITypeRegistry> _registryMock;
 		private Mock<ITypeResolver> _resolverMock;
-		private Container _container;
+		private IContainer _container;
 
 		[TestInitialize]
 		public void TestInitialize()

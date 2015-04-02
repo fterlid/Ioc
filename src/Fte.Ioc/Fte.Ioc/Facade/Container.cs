@@ -2,9 +2,9 @@
 using Fte.Ioc.Registry;
 using Fte.Ioc.Resolver;
 
-namespace Fte.Ioc
+namespace Fte.Ioc.Facade
 {
-	public class Container
+	public class Container : IContainer
 	{
 		private readonly ITypeRegistry _typeRegistry;
 		private readonly ITypeResolver _typeResolver;
