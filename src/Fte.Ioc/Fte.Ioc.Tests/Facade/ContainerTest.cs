@@ -1,9 +1,9 @@
-﻿using Fte.Ioc.Facade;
-using Fte.Ioc.Registry;
+﻿using Fte.Ioc.Registry;
 using Fte.Ioc.Resolver;
 using Fte.Ioc.Tests.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
 
 namespace Fte.Ioc.Facade.Tests
 {
@@ -20,6 +20,20 @@ namespace Fte.Ioc.Facade.Tests
 			_registryMock = new Mock<ITypeRegistry>();
 			_resolverMock = new Mock<ITypeResolver>();
 			_container = new Container(_registryMock.Object, _resolverMock.Object);
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Ctor_TypeRegistryIsNull_ThrowsException()
+		{
+			var container = new Container(null, _resolverMock.Object);
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Ctor_TypeResolverIsNull_ThrowsException()
+		{
+			var container = new Container(_registryMock.Object, null);
 		}
 
 		[TestMethod]
