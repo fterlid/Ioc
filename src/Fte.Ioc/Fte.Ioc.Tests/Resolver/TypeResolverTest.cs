@@ -10,34 +10,58 @@ namespace Fte.Ioc.Tests.Resolver
 	[TestClass]
 	public class TypeResolverTest
 	{
+		private Mock<ITypeRegistry> _registryMock;
+		private Mock<IObjectFactory> _objectFactoryMock;
+		private ITypeResolver _resolver;
+
+		[TestInitialize]
+		public void TestInitialize()
+		{
+			_registryMock = new Mock<ITypeRegistry>();
+			_objectFactoryMock = new Mock<IObjectFactory>();
+			_resolver = new TypeResolver(_registryMock.Object, _objectFactoryMock.Object);
+		}
+
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void Ctor_TypeRegistryAsNull_ThrowsException()
 		{
-			var objectFactoryMock = new Mock<IObjectFactory>();
-			new TypeResolver(null, objectFactoryMock.Object);
+			new TypeResolver(null, _objectFactoryMock.Object);
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void Ctor_ObjectFactoryAsNull_ThrowsException()
 		{
-			var registryMock = new Mock<ITypeRegistry>();
-			new TypeResolver(registryMock.Object, null);
+			new TypeResolver(_registryMock.Object, null);
 		}
 
 		[TestMethod]
-		public void Resolve_InputTypeIsRegistered_ObjectIsCreated()
+		public void Resolve_TypeIsRegisteredAndHasDefaultConstructor_ObjectIsCreated()
 		{
-			var registryItem = new TypeRegistryItem(typeof(ITestService), typeof(TestService), LifeCycle.Singleton);
-			var registryMock = new Mock<ITypeRegistry>();
-			registryMock.Setup(x => x.GetRegistryItem(It.IsAny<Type>())).Returns(registryItem);
-			var objectFactoryMock = new Mock<IObjectFactory>();
-            var resolver = new TypeResolver(registryMock.Object, objectFactoryMock.Object);
+			RegisterType(typeof(ITestService), typeof(TestService), LifeCycle.Singleton);
 
-			resolver.Resolve(typeof(ITestService));
+			_resolver.Resolve(typeof(ITestService));
 
-			objectFactoryMock.Verify(x => x.Create(typeof(TestService)), Times.Once);
+			_objectFactoryMock.Verify(x => x.Create(typeof(TestService), It.IsAny<object[]>()), Times.Once);
+		}
+
+		[TestMethod]
+		public void Resolve_TypeIsRegisteredAndHasRegisteredDependency_ObjectIsCreated()
+		{
+			RegisterType(typeof(ITestService), typeof(TestService), LifeCycle.Singleton);
+			RegisterType(typeof(IOtherTestService), typeof(OtherTestService), LifeCycle.Singleton);
+
+			_resolver.Resolve(typeof(IOtherTestService));
+
+			_objectFactoryMock.Verify(x => x.Create(typeof(TestService), It.IsAny<object[]>()), Times.Once);
+			_objectFactoryMock.Verify(x => x.Create(typeof(OtherTestService), It.IsAny<object[]>()), Times.Once);
+		}
+
+		private void RegisterType(Type abstraction, Type concrete, LifeCycle lifeCycle)
+		{
+			var testServiceItem = new TypeRegistryItem(abstraction, concrete, lifeCycle);
+			_registryMock.Setup(x => x.GetRegistryItem(abstraction)).Returns(testServiceItem);
 		}
 	}
 }

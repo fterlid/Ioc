@@ -1,6 +1,7 @@
-﻿using Fte.Ioc.Exceptions;
-using System;
+﻿using System;
 using Fte.Ioc.Registry;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Fte.Ioc.Resolver
 {
@@ -21,8 +22,27 @@ namespace Fte.Ioc.Resolver
 		public object Resolve(Type typeToResolve)
 		{
 			var registryItem = _typeRegistry.GetRegistryItem(typeToResolve);
+			var constructorParamObjects = ResolveConstructorParameters(registryItem.ConcreteType);
 
-			return _objectFactory.Create(registryItem.ConcreteType);
+			return _objectFactory.Create(registryItem.ConcreteType, constructorParamObjects.ToArray());
+		}
+
+		private IEnumerable<object> ResolveConstructorParameters(Type concreteType)
+		{
+			var parameterTypes = GetConstructorParameterTypes(concreteType);
+			foreach (var type in parameterTypes)
+			{
+				yield return Resolve(type);
+			}
+		}
+
+		private IEnumerable<Type> GetConstructorParameterTypes(Type concreteType)
+		{
+			var constructorInfo = concreteType.GetConstructors().First();
+			foreach(var p in constructorInfo.GetParameters())
+			{
+				yield return p.ParameterType;
+			}
 		}
 	}
 }

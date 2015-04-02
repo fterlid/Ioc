@@ -60,7 +60,9 @@
     <Compile Include="Registry\TypeRegistryItemTest.cs" />
     <Compile Include="Resolver\TypeResolverTest.cs" />
     <Compile Include="Resolver\ObjectFactoryTest.cs" />
+    <Compile Include="Utils\IOtherTestService.cs" />
     <Compile Include="Utils\ITestService.cs" />
+    <Compile Include="Utils\OtherTestService.cs" />
     <Compile Include="Utils\TestService.cs" />
   </ItemGroup>
   <ItemGroup>

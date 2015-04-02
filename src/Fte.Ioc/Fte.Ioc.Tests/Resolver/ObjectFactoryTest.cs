@@ -13,15 +13,23 @@ namespace Fte.Ioc.Tests.Resolver
 		public void Create_InputTypeAsNull_ThrowsException()
 		{
 			var factory = new ObjectFactory();
-			factory.Create(null);
+			factory.Create(null, new object[0]);
 		}
 
 		[TestMethod]
-		public void Create_ConcreteTypeAsInput_ReturnsObjectOFInputType()
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Create_ConstructorParamsArrayAsNull_ThrowsException()
+		{
+			var factory = new ObjectFactory();
+			factory.Create(typeof(TestService), null);
+		}
+
+		[TestMethod]
+		public void Create_ConcreteTypeAsInput_ReturnsObjectOfInputType()
 		{
 			var factory = new ObjectFactory();
 
-			var obj = factory.Create(typeof(TestService));
+			var obj = factory.Create(typeof(TestService), new object[0]);
 
 			Assert.IsInstanceOfType(obj, typeof(TestService));
 		}
