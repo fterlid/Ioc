@@ -11,6 +11,9 @@ namespace Fte.Ioc.Facade
 
 		public Container(ITypeRegistry typeRegistry, ITypeResolver typeResolver)
 		{
+			if (typeRegistry == null) throw new ArgumentNullException("typeRegistry");
+			if (typeResolver == null) throw new ArgumentNullException("typeResolver");
+
 			_typeRegistry = typeRegistry;
 			_typeResolver = typeResolver;
 		}
