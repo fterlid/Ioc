@@ -1,6 +1,7 @@
 ﻿using Fte.Ioc.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace Fte.Ioc.Registry
 {
@@ -24,5 +25,17 @@ namespace Fte.Ioc.Registry
 			
 			_registeredTypes.Add(item);
         }
+
+		public TypeRegistryItem GetRegistryItem(Type abstractionType)
+		{
+			var registryItem = _registeredTypes.FirstOrDefault(item => item.AbstractionType == abstractionType);
+
+			if (registryItem == null)
+			{
+				throw new TypeNotRegisteredException(string.Format("Type {0} is not registered.", abstractionType.Name)); 
+			}
+
+			return registryItem;
+		}
 	}
 }

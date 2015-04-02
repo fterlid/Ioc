@@ -58,6 +58,7 @@
     <Compile Include="Facade\ContainerTest.cs" />
     <Compile Include="Registry\TypeRegistryTest.cs" />
     <Compile Include="Registry\TypeRegistryItemTest.cs" />
+    <Compile Include="Resolver\TypeResolverTest.cs" />
     <Compile Include="Utils\ITestService.cs" />
     <Compile Include="Utils\TestService.cs" />
   </ItemGroup>

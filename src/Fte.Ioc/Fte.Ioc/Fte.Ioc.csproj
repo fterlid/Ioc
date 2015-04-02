@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="ContainerProvider.cs" />
     <Compile Include="Exceptions\TypeAlreadyRegisteredException.cs" />
+    <Compile Include="Exceptions\TypeNotRegisteredException.cs" />
     <Compile Include="Facade\Container.cs" />
     <Compile Include="Facade\IContainer.cs" />
     <Compile Include="LifeCycle.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="Registry\TypeRegistry.cs" />
     <Compile Include="Registry\TypeRegistryItem.cs" />
     <Compile Include="Resolver\ITypeResolver.cs" />
+    <Compile Include="Resolver\TypeResolver.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
