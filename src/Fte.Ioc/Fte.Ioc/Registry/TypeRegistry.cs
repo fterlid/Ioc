@@ -14,7 +14,7 @@ namespace Fte.Ioc.Registry
 			_registeredTypes = new List<TypeRegistryItem>();
 		}
 
-		public void Register<TAbstraction, TConcrete>(LifeCycle lifeCycle)
+		public void Register<TAbstraction, TConcrete>(LifeCycle lifeCycle) where TConcrete : TAbstraction
 		{
 			var item = new TypeRegistryItem(typeof(TAbstraction), typeof(TConcrete), lifeCycle);
 
