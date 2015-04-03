@@ -59,13 +59,5 @@ namespace Fte.Ioc.Facade.Tests
 
 			_resolverMock.Verify(x => x.Resolve(typeof(ITestService)), Times.Once);
 		}
-
-		[TestMethod]
-		public void Resolve_Parameterized_CallsServiceWithCorrectType()
-		{
-			_container.Resolve<ITestService>();
-
-			_resolverMock.Verify(x => x.Resolve(typeof(ITestService)), Times.Once);
-		}
 	}
 }

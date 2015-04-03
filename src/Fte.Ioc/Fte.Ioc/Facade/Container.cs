@@ -28,11 +28,6 @@ namespace Fte.Ioc.Facade
 			_typeRegistry.Register<TAbstraction, TConcrete>(lifeCycle);
 		}
 
-		public T Resolve<T>() where T : class
-		{
-			return (T) Resolve(typeof(T));
-		}
-
 		public object Resolve(Type typeToResolve)
 		{
 			return _typeResolver.Resolve(typeToResolve);
