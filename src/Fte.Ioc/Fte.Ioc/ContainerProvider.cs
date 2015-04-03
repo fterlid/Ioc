@@ -4,9 +4,9 @@ using Fte.Ioc.Resolver;
 
 namespace Fte.Ioc
 {
-	public class ContainerProvider
+	public static class ContainerProvider
 	{
-		public IContainer GetContainer()
+		public static IContainer GetContainer()
 		{
 			var typeRegistry = new TypeRegistry();
 			var objectFactory = new ObjectFactory();
