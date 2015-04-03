@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fte.Ioc", "Fte.Ioc\Fte.Ioc.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fte.Ioc.Tests", "Fte.Ioc.Tests\Fte.Ioc.Tests.csproj", "{3B7C0EEA-4171-446E-8350-8A4D23AAFFE6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{A0E16B47-E495-4C23-8540-6D79715041FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fte.Ioc.Demo.Web", "Fte.Ioc.Demo.Web\Fte.Ioc.Demo.Web.csproj", "{077C5982-ACBE-48EC-AD8E-8E6EFF746D25}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,8 +25,15 @@ Global
 		{3B7C0EEA-4171-446E-8350-8A4D23AAFFE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B7C0EEA-4171-446E-8350-8A4D23AAFFE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B7C0EEA-4171-446E-8350-8A4D23AAFFE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{077C5982-ACBE-48EC-AD8E-8E6EFF746D25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{077C5982-ACBE-48EC-AD8E-8E6EFF746D25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{077C5982-ACBE-48EC-AD8E-8E6EFF746D25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{077C5982-ACBE-48EC-AD8E-8E6EFF746D25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{077C5982-ACBE-48EC-AD8E-8E6EFF746D25} = {A0E16B47-E495-4C23-8540-6D79715041FF}
 	EndGlobalSection
 EndGlobal
