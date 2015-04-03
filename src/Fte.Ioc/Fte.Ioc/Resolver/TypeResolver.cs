@@ -9,6 +9,7 @@ namespace Fte.Ioc.Resolver
 	{
 		private readonly ITypeRegistry _typeRegistry;
 		private readonly IObjectFactory _objectFactory;
+		private readonly IDictionary<Type, object> _singletonObjects;
 
 		public TypeResolver(ITypeRegistry typeRegistry, IObjectFactory objectFactory)
 		{
@@ -17,14 +18,28 @@ namespace Fte.Ioc.Resolver
 
 			_typeRegistry = typeRegistry;
 			_objectFactory = objectFactory;
-		}
+			_singletonObjects = new Dictionary<Type, object>();
+        }
 
 		public object Resolve(Type typeToResolve)
 		{
 			var registryItem = _typeRegistry.GetRegistryItem(typeToResolve);
-			var constructorParamObjects = ResolveConstructorParameters(registryItem.ConcreteType);
+			var concreteType = registryItem.ConcreteType;
 
-			return _objectFactory.Create(registryItem.ConcreteType, constructorParamObjects.ToArray());
+			if (_singletonObjects.ContainsKey(concreteType))
+			{
+				return _singletonObjects[concreteType];
+			}
+
+			var constructorParamObjects = ResolveConstructorParameters(registryItem.ConcreteType);
+			var resolvedObject = _objectFactory.Create(concreteType, constructorParamObjects.ToArray());
+
+			if (registryItem.LifeCycle == LifeCycle.Singleton)
+			{
+				_singletonObjects.Add(concreteType, resolvedObject);
+			}
+
+			return resolvedObject;
 		}
 
 		private IEnumerable<object> ResolveConstructorParameters(Type concreteType)
