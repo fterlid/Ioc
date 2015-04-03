@@ -1,5 +1,6 @@
 ﻿using Fte.Ioc.Facade;
-using System;
+using Fte.Ioc.Registry;
+using Fte.Ioc.Resolver;
 
 namespace Fte.Ioc
 {
@@ -7,7 +8,11 @@ namespace Fte.Ioc
 	{
 		public IContainer GetContainer()
 		{
-			throw new NotImplementedException();
+			var typeRegistry = new TypeRegistry();
+			var objectFactory = new ObjectFactory();
+			var typeResolver = new TypeResolver(typeRegistry, objectFactory);
+
+			return new Container(typeRegistry, typeResolver);
 		}
 	}
 }
