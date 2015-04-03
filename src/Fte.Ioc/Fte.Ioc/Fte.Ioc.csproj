@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="ContainerProvider.cs" />
     <Compile Include="Exceptions\TypeAlreadyRegisteredException.cs" />
+    <Compile Include="Exceptions\TypeCannotBeInstantiatedException.cs" />
     <Compile Include="Exceptions\TypeNotRegisteredException.cs" />
     <Compile Include="Facade\Container.cs" />
     <Compile Include="Facade\IContainer.cs" />

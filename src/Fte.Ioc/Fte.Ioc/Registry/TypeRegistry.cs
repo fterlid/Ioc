@@ -16,13 +16,13 @@ namespace Fte.Ioc.Registry
 
 		public void Register<TAbstraction, TConcrete>(LifeCycle lifeCycle) where TConcrete : TAbstraction
 		{
-			var item = new TypeRegistryItem(typeof(TAbstraction), typeof(TConcrete), lifeCycle);
+			var abstractionType = typeof(TAbstraction);
+			AssertTypeNotAlreadyRegistered(abstractionType);
 
-			if (_registeredTypes.Any(x => x.AbstractionType == typeof(TAbstraction)))
-			{
-				throw new TypeAlreadyRegisteredException(string.Format("Type {0} is already registered.", typeof(TAbstraction).Name));
-			}
-			
+			var concreteType = typeof(TConcrete);
+			AssertTypeCanBeInstantiated(concreteType);
+
+			var item = new TypeRegistryItem(abstractionType, concreteType, lifeCycle);
 			_registeredTypes.Add(item);
         }
 
@@ -36,6 +36,22 @@ namespace Fte.Ioc.Registry
 			}
 
 			return registryItem;
+		}
+
+		private void AssertTypeNotAlreadyRegistered(Type abstractionType)
+		{
+			if (_registeredTypes.Any(x => x.AbstractionType == abstractionType))
+			{
+				throw new TypeAlreadyRegisteredException(string.Format("Type {0} is already registered.", abstractionType.Name));
+			}
+		}
+
+		private void AssertTypeCanBeInstantiated(Type concreteType)
+		{
+			if (!concreteType.GetConstructors().Any())
+			{
+				throw new TypeCannotBeInstantiatedException(string.Format("Could not find any constructors for type {0}", concreteType.Name));
+			}
 		}
 	}
 }

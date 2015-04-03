@@ -31,6 +31,13 @@ namespace Fte.Ioc.Tests.Registry
 		}
 
 		[TestMethod]
+		[ExpectedException(typeof(TypeCannotBeInstantiatedException))]
+		public void Register_RegisterInterfaceAsConcreteType_ThrowsException()
+		{
+			_registry.Register<ITestService, ITestService>(LifeCycle.Singleton);
+		}
+
+		[TestMethod]
 		[ExpectedException(typeof(TypeNotRegisteredException))]
 		public void GetRegistryItem_InputTypeIsNotRegistered_ThrowsException()
 		{
