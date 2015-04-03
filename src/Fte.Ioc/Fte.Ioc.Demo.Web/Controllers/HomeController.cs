@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Fte.Ioc.Demo.Services;
 using System.Web.Mvc;
 
 namespace Fte.Ioc.Demo.Web.Controllers
 {
 	public class HomeController : Controller
 	{
+		public HomeController(ISomeOtherService someOtherService)
+		{
+		}
+
 		public ActionResult Index()
 		{
 			return View();

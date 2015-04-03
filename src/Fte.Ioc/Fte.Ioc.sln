@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{A0E16B47-E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fte.Ioc.Demo.Web", "Fte.Ioc.Demo.Web\Fte.Ioc.Demo.Web.csproj", "{077C5982-ACBE-48EC-AD8E-8E6EFF746D25}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fte.Ioc.Demo.Services", "Fte.Ioc.Demo.Services\Fte.Ioc.Demo.Services.csproj", "{8FB126E0-4336-48A1-B13F-40356E8EC2FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,11 +31,16 @@ Global
 		{077C5982-ACBE-48EC-AD8E-8E6EFF746D25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{077C5982-ACBE-48EC-AD8E-8E6EFF746D25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{077C5982-ACBE-48EC-AD8E-8E6EFF746D25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FB126E0-4336-48A1-B13F-40356E8EC2FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FB126E0-4336-48A1-B13F-40356E8EC2FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FB126E0-4336-48A1-B13F-40356E8EC2FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FB126E0-4336-48A1-B13F-40356E8EC2FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{077C5982-ACBE-48EC-AD8E-8E6EFF746D25} = {A0E16B47-E495-4C23-8540-6D79715041FF}
+		{8FB126E0-4336-48A1-B13F-40356E8EC2FB} = {A0E16B47-E495-4C23-8540-6D79715041FF}
 	EndGlobalSection
 EndGlobal

@@ -255,6 +255,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Fte.Ioc.Demo.Services\Fte.Ioc.Demo.Services.csproj">
+      <Project>{8fb126e0-4336-48a1-b13f-40356e8ec2fb}</Project>
+      <Name>Fte.Ioc.Demo.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Fte.Ioc\Fte.Ioc.csproj">
       <Project>{c8284fc4-9c82-411f-99d0-89952c0e8953}</Project>
       <Name>Fte.Ioc</Name>
