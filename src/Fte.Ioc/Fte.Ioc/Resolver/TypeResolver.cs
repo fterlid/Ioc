@@ -25,7 +25,7 @@ namespace Fte.Ioc.Resolver
 		{
 			var registryItem = _typeRegistry.GetRegistryItem(typeToResolve);
 			var constructorParamObjects = ResolveConstructorParameters(registryItem.ConcreteType);
-			var resolvedObject = _objectFactory.Create(registryItem, constructorParamObjects.ToArray());
+			var resolvedObject = _objectFactory.GetInstance(registryItem, constructorParamObjects.ToArray());
 
 			return resolvedObject;
 		}

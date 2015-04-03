@@ -13,7 +13,7 @@ namespace Fte.Ioc.Resolver
 			_singletonObjects = new Dictionary<Type, object>();
 		}
 
-		public object Create(TypeRegistryItem registryItem, object[] constructorParams)
+		public object GetInstance(TypeRegistryItem registryItem, object[] constructorParams)
 		{
 			if (registryItem == null) throw new ArgumentNullException("registryItem");
 			if (constructorParams == null) throw new ArgumentNullException("constructorParams");
@@ -25,9 +25,14 @@ namespace Fte.Ioc.Resolver
 				return _singletonObjects[concreteType];
 			}
 
+			return Create(concreteType, constructorParams, registryItem.LifeCycle);
+		}
+
+		private object Create(Type concreteType, object[] constructorParams, LifeCycle lifeCycle)
+		{
 			var instance = Activator.CreateInstance(concreteType, constructorParams);
 
-			if (registryItem.LifeCycle == LifeCycle.Singleton)
+			if (lifeCycle == LifeCycle.Singleton)
 			{
 				_singletonObjects.Add(concreteType, instance);
 			}

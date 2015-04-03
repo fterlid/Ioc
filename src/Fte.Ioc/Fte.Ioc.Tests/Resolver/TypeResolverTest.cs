@@ -43,7 +43,7 @@ namespace Fte.Ioc.Tests.Resolver
 
 			_resolver.Resolve(typeof(ITestService));
 
-			_objectFactoryMock.Verify(x => x.Create(It.IsAny<TypeRegistryItem>(), It.IsAny<object[]>()), Times.Once);
+			_objectFactoryMock.Verify(x => x.GetInstance(It.IsAny<TypeRegistryItem>(), It.IsAny<object[]>()), Times.Once);
 		}
 
 		[TestMethod]
@@ -54,7 +54,7 @@ namespace Fte.Ioc.Tests.Resolver
 
 			_resolver.Resolve(typeof(IOtherTestService));
 
-			_objectFactoryMock.Verify(x => x.Create(It.IsAny<TypeRegistryItem>(), It.IsAny<object[]>()), Times.Exactly(2));
+			_objectFactoryMock.Verify(x => x.GetInstance(It.IsAny<TypeRegistryItem>(), It.IsAny<object[]>()), Times.Exactly(2));
 		}
 
 		private void RegisterType(Type abstraction, Type concrete, LifeCycle lifeCycle)

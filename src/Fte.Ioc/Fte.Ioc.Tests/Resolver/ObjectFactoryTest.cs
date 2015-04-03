@@ -25,20 +25,20 @@ namespace Fte.Ioc.Tests.Resolver
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void Create_RegistryItemAsNull_ThrowsException()
 		{
-			_factory.Create(null, new object[0]);
+			_factory.GetInstance(null, new object[0]);
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void Create_ConstructorParamsArrayAsNull_ThrowsException()
 		{
-			_factory.Create(_transientRegItem, null);
+			_factory.GetInstance(_transientRegItem, null);
 		}
 
 		[TestMethod]
 		public void Create_ConcreteTypeAsInput_ReturnsObjectOfInputType()
 		{
-			var obj = _factory.Create(_transientRegItem, new object[0]);
+			var obj = _factory.GetInstance(_transientRegItem, new object[0]);
 
 			Assert.IsInstanceOfType(obj, typeof(TestService));
 		}
@@ -46,8 +46,8 @@ namespace Fte.Ioc.Tests.Resolver
 		[TestMethod]
 		public void Create_TypeHasSingletonLifeCycle_ObjectIsCreatedOnce()
 		{
-			var obj1 = _factory.Create(_singletonRegItem, new object[0]);
-			var obj2 = _factory.Create(_singletonRegItem, new object[0]);
+			var obj1 = _factory.GetInstance(_singletonRegItem, new object[0]);
+			var obj2 = _factory.GetInstance(_singletonRegItem, new object[0]);
 
 			Assert.AreSame(obj1, obj2);
 		}
@@ -55,8 +55,8 @@ namespace Fte.Ioc.Tests.Resolver
 		[TestMethod]
 		public void Resolve_TypeHasTransientLifeCycle_FactoryIsCalledOneachResolve()
 		{
-			var obj1 = _factory.Create(_transientRegItem, new object[0]);
-			var obj2 = _factory.Create(_transientRegItem, new object[0]);
+			var obj1 = _factory.GetInstance(_transientRegItem, new object[0]);
+			var obj2 = _factory.GetInstance(_transientRegItem, new object[0]);
 
 			Assert.AreNotSame(obj1, obj2);
 		}
