@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Fte.Ioc.Registry;
 
 namespace Fte.Ioc.Resolver
 {
 	internal interface IObjectFactory
 	{
-		object Create(Type concreteType, object[] constructorParams);
+		object Create(TypeRegistryItem registryItem, object[] constructorParams);
 	}
 }

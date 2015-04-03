@@ -24,20 +24,8 @@ namespace Fte.Ioc.Resolver
 		public object Resolve(Type typeToResolve)
 		{
 			var registryItem = _typeRegistry.GetRegistryItem(typeToResolve);
-			var concreteType = registryItem.ConcreteType;
-
-			if (_singletonObjects.ContainsKey(concreteType))
-			{
-				return _singletonObjects[concreteType];
-			}
-
 			var constructorParamObjects = ResolveConstructorParameters(registryItem.ConcreteType);
-			var resolvedObject = _objectFactory.Create(concreteType, constructorParamObjects.ToArray());
-
-			if (registryItem.LifeCycle == LifeCycle.Singleton)
-			{
-				_singletonObjects.Add(concreteType, resolvedObject);
-			}
+			var resolvedObject = _objectFactory.Create(registryItem, constructorParamObjects.ToArray());
 
 			return resolvedObject;
 		}

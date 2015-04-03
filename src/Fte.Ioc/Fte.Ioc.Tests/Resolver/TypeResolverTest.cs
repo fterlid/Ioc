@@ -37,47 +37,24 @@ namespace Fte.Ioc.Tests.Resolver
 		}
 
 		[TestMethod]
-		public void Resolve_TypeIsRegisteredAndHasDefaultConstructor_ObjectIsCreated()
+		public void Resolve_TypeIsRegisteredAndHasDefaultConstructor_ObjectIsResolved()
 		{
 			RegisterType(typeof(ITestService), typeof(TestService), LifeCycle.Singleton);
 
 			_resolver.Resolve(typeof(ITestService));
 
-			_objectFactoryMock.Verify(x => x.Create(typeof(TestService), It.IsAny<object[]>()), Times.Once);
+			_objectFactoryMock.Verify(x => x.Create(It.IsAny<TypeRegistryItem>(), It.IsAny<object[]>()), Times.Once);
 		}
 
 		[TestMethod]
-		public void Resolve_TypeIsRegisteredAndHasRegisteredDependency_ObjectIsCreated()
+		public void Resolve_TypeIsRegisteredAndHasRegisteredDependency_ObjectIsResolved()
 		{
 			RegisterType(typeof(ITestService), typeof(TestService), LifeCycle.Singleton);
 			RegisterType(typeof(IOtherTestService), typeof(OtherTestService), LifeCycle.Singleton);
 
 			_resolver.Resolve(typeof(IOtherTestService));
 
-			_objectFactoryMock.Verify(x => x.Create(typeof(TestService), It.IsAny<object[]>()), Times.Once);
-			_objectFactoryMock.Verify(x => x.Create(typeof(OtherTestService), It.IsAny<object[]>()), Times.Once);
-		}
-
-		[TestMethod]
-		public void Resolve_TypeHasSingletonLifeCycle_FactoryIsCalledOnce()
-		{
-			RegisterType(typeof(ITestService), typeof(TestService), LifeCycle.Singleton);
-
-			_resolver.Resolve(typeof(ITestService));
-			_resolver.Resolve(typeof(ITestService));
-
-			_objectFactoryMock.Verify(x => x.Create(typeof(TestService), It.IsAny<object[]>()), Times.Once);
-		}
-
-		[TestMethod]
-		public void Resolve_TypeHasTransientLifeCycle_FactoryIsCalledOneachResolve()
-		{
-			RegisterType(typeof(ITestService), typeof(TestService), LifeCycle.Transient);
-
-			_resolver.Resolve(typeof(ITestService));
-			_resolver.Resolve(typeof(ITestService));
-
-			_objectFactoryMock.Verify(x => x.Create(typeof(TestService), It.IsAny<object[]>()), Times.Exactly(2));
+			_objectFactoryMock.Verify(x => x.Create(It.IsAny<TypeRegistryItem>(), It.IsAny<object[]>()), Times.Exactly(2));
 		}
 
 		private void RegisterType(Type abstraction, Type concrete, LifeCycle lifeCycle)
