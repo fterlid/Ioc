@@ -6,6 +6,7 @@ namespace Fte.Ioc.Facade
 {
 	internal class Container : IContainer
 	{
+		private const LifeCycle DefaultLifeCycle = LifeCycle.Transient;
 		private readonly ITypeRegistry _typeRegistry;
 		private readonly ITypeResolver _typeResolver;
 
@@ -20,7 +21,7 @@ namespace Fte.Ioc.Facade
 
 		public void Register<TConcrete>() where TConcrete : class
 		{
-			Register<TConcrete, TConcrete>(LifeCycle.Transient);
+			Register<TConcrete, TConcrete>(DefaultLifeCycle);
 		}
 
 		public void Register<TConcrete>(LifeCycle lifeCycle) where TConcrete : class
@@ -30,7 +31,7 @@ namespace Fte.Ioc.Facade
 
 		public void Register<TAbstraction, TConcrete>() where TConcrete : TAbstraction
 		{
-			Register<TAbstraction, TConcrete>(LifeCycle.Transient);
+			Register<TAbstraction, TConcrete>(DefaultLifeCycle);
 		}
 
 		public void Register<TAbstraction, TConcrete>(LifeCycle lifeCycle) where TConcrete : TAbstraction
