@@ -37,18 +37,30 @@ namespace Fte.Ioc.Facade.Tests
 		}
 
 		[TestMethod]
-		public void Register_WithoutParameter_CallsServiceWithTransientLifeCycle()
+		public void Register_GenericOneTypeWithoutParameter_CallsServiceWithTransientLifeCycle()
+		{
+			_container.Register<TestService>();
+			_registryMock.Verify(x => x.Register<TestService, TestService>(LifeCycle.Transient), Times.Once);
+		}
+
+		[TestMethod]
+		public void Register_GenericOneTypeWithtParameter_CallsServiceWithCorrectLifeCycle()
+		{
+			_container.Register<TestService>(LifeCycle.Singleton);
+			_registryMock.Verify(x => x.Register<TestService, TestService>(LifeCycle.Singleton), Times.Once);
+		}
+
+		[TestMethod]
+		public void Register_GenericTwoTypesWithoutParameter_CallsServiceWithTransientLifeCycle()
 		{
 			_container.Register<ITestService, TestService>();
-
 			_registryMock.Verify(x => x.Register<ITestService, TestService>(LifeCycle.Transient), Times.Once);
 		}
 
 		[TestMethod]
-		public void Register_WithtParameter_CallsServiceWithCorrectLifeCycle()
+		public void Register_GenericTwoTypesWithtParameter_CallsServiceWithCorrectLifeCycle()
 		{
 			_container.Register<ITestService, TestService>(LifeCycle.Singleton);
-
 			_registryMock.Verify(x => x.Register<ITestService, TestService>(LifeCycle.Singleton), Times.Once);
 		}
 
@@ -56,7 +68,6 @@ namespace Fte.Ioc.Facade.Tests
 		public void Resolve_Unparameterized_CallsServiceWithCorrectType()
 		{
 			_container.Resolve(typeof(ITestService));
-
 			_resolverMock.Verify(x => x.Resolve(typeof(ITestService)), Times.Once);
 		}
 	}

@@ -18,6 +18,16 @@ namespace Fte.Ioc.Facade
 			_typeResolver = typeResolver;
 		}
 
+		public void Register<TConcrete>() where TConcrete : class
+		{
+			Register<TConcrete, TConcrete>(LifeCycle.Transient);
+		}
+
+		public void Register<TConcrete>(LifeCycle lifeCycle) where TConcrete : class
+		{
+			Register<TConcrete, TConcrete>(lifeCycle);
+		}
+
 		public void Register<TAbstraction, TConcrete>() where TConcrete : TAbstraction
 		{
 			Register<TAbstraction, TConcrete>(LifeCycle.Transient);

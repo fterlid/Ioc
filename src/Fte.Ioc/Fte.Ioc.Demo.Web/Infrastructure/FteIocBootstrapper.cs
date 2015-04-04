@@ -8,7 +8,7 @@ namespace Fte.Ioc.Demo.Web.Infrastructure
 	{
 		public static void Configure(IContainer container)
 		{
-			container.Register<HomeController, HomeController>();
+			container.Register<HomeController>();
 			container.Register<ISomeOtherService, SomeOtherService>();
 			container.Register<ISomeService, SomeService>(LifeCycle.Singleton);
 		}
