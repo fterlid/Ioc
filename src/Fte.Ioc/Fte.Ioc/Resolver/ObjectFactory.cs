@@ -1,4 +1,5 @@
-﻿using Fte.Ioc.Registry;
+﻿using Fte.Ioc.Exceptions;
+using Fte.Ioc.Registry;
 using System;
 using System.Collections.Generic;
 
@@ -13,9 +14,27 @@ namespace Fte.Ioc.Resolver
 			_singletonObjects = new Dictionary<Type, object>();
 		}
 
-		public object GetInstance(TypeRegistryItem registryItem, object[] constructorParams)
+		public bool HasInstance(TypeRegistryItem registryItem)
 		{
-			if (registryItem == null) throw new ArgumentNullException("registryItem");
+			AssertTypeRegistryItem(registryItem);
+
+			return registryItem.LifeCycle == LifeCycle.Singleton 
+				&& _singletonObjects.ContainsKey(registryItem.ConcreteType);
+		}
+
+		public object GetInstance(TypeRegistryItem registryItem)
+		{
+			if (HasInstance(registryItem))
+			{
+				return _singletonObjects[registryItem.ConcreteType];
+			}
+
+			throw new ObjectNotCreatedException("Singleton object of type {0} has not been instantiated yet. ");
+		}
+
+		public object Create(TypeRegistryItem registryItem, object[] constructorParams)
+		{
+			AssertTypeRegistryItem(registryItem);
 			if (constructorParams == null) throw new ArgumentNullException("constructorParams");
 
 			var concreteType = registryItem.ConcreteType;
@@ -38,6 +57,14 @@ namespace Fte.Ioc.Resolver
 			}
 
 			return instance;
+		}
+
+		private void AssertTypeRegistryItem(TypeRegistryItem registryItem)
+		{
+			if (registryItem == null)
+			{
+				throw new ArgumentNullException("registryItem");
+			}
 		}
 	}
 }

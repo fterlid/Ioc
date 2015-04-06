@@ -43,7 +43,7 @@ namespace Fte.Ioc.Tests.Resolver
 
 			_resolver.Resolve(typeof(ITestService));
 
-			_objectFactoryMock.Verify(x => x.GetInstance(It.IsAny<TypeRegistryItem>(), It.IsAny<object[]>()), Times.Once);
+			_objectFactoryMock.Verify(x => x.Create(It.IsAny<TypeRegistryItem>(), It.IsAny<object[]>()), Times.Once);
 		}
 
 		[TestMethod]
@@ -54,7 +54,18 @@ namespace Fte.Ioc.Tests.Resolver
 
 			_resolver.Resolve(typeof(IOtherTestService));
 
-			_objectFactoryMock.Verify(x => x.GetInstance(It.IsAny<TypeRegistryItem>(), It.IsAny<object[]>()), Times.Exactly(2));
+			_objectFactoryMock.Verify(x => x.Create(It.IsAny<TypeRegistryItem>(), It.IsAny<object[]>()), Times.Exactly(2));
+		}
+
+		[TestMethod]
+		public void Resolve_SingeltonWithTransientDependency_NoObjectsAreCreatedIfSingletonHasBeenCreated()
+		{
+			RegisterType(typeof(IOtherTestService), typeof(OtherTestService), LifeCycle.Singleton);
+			_objectFactoryMock.Setup(x => x.HasInstance(It.IsAny<TypeRegistryItem>())).Returns(true);
+
+			_resolver.Resolve(typeof(IOtherTestService));
+
+			_objectFactoryMock.Verify(x => x.Create(It.IsAny<TypeRegistryItem>(), It.IsAny<object[]>()), Times.Never);
 		}
 
 		private void RegisterType(Type abstraction, Type concrete, LifeCycle lifeCycle)

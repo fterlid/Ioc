@@ -4,6 +4,10 @@ namespace Fte.Ioc.Resolver
 {
 	internal interface IObjectFactory
 	{
-		object GetInstance(TypeRegistryItem registryItem, object[] constructorParams);
+		bool HasInstance(TypeRegistryItem registryItem);
+
+		object GetInstance(TypeRegistryItem registryItem);
+
+		object Create(TypeRegistryItem registryItem, object[] constructorParams);
 	}
 }
