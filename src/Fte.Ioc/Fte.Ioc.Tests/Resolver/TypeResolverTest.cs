@@ -11,22 +11,22 @@ namespace Fte.Ioc.Tests.Resolver
 	public class TypeResolverTest
 	{
 		private Mock<ITypeRegistry> _registryMock;
-		private Mock<IObjectFactory> _objectFactoryMock;
+		private Mock<IObjectManager> _objectManagerMock;
 		private ITypeResolver _resolver;
 
 		[TestInitialize]
 		public void TestInitialize()
 		{
 			_registryMock = new Mock<ITypeRegistry>();
-			_objectFactoryMock = new Mock<IObjectFactory>();
-			_resolver = new TypeResolver(_registryMock.Object, _objectFactoryMock.Object);
+			_objectManagerMock = new Mock<IObjectManager>();
+			_resolver = new TypeResolver(_registryMock.Object, _objectManagerMock.Object);
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void Ctor_TypeRegistryAsNull_ThrowsException()
 		{
-			new TypeResolver(null, _objectFactoryMock.Object);
+			new TypeResolver(null, _objectManagerMock.Object);
 		}
 
 		[TestMethod]
@@ -43,7 +43,7 @@ namespace Fte.Ioc.Tests.Resolver
 
 			_resolver.Resolve(typeof(ITestService));
 
-			_objectFactoryMock.Verify(x => x.Create(It.IsAny<TypeRegistryItem>(), It.IsAny<object[]>()), Times.Once);
+			_objectManagerMock.Verify(x => x.Create(It.IsAny<TypeRegistryItem>(), It.IsAny<object[]>()), Times.Once);
 		}
 
 		[TestMethod]
@@ -54,18 +54,18 @@ namespace Fte.Ioc.Tests.Resolver
 
 			_resolver.Resolve(typeof(IOtherTestService));
 
-			_objectFactoryMock.Verify(x => x.Create(It.IsAny<TypeRegistryItem>(), It.IsAny<object[]>()), Times.Exactly(2));
+			_objectManagerMock.Verify(x => x.Create(It.IsAny<TypeRegistryItem>(), It.IsAny<object[]>()), Times.Exactly(2));
 		}
 
 		[TestMethod]
 		public void Resolve_SingeltonWithTransientDependency_NoObjectsAreCreatedIfSingletonHasBeenCreated()
 		{
 			RegisterType(typeof(IOtherTestService), typeof(OtherTestService), LifeCycle.Singleton);
-			_objectFactoryMock.Setup(x => x.HasInstance(It.IsAny<TypeRegistryItem>())).Returns(true);
+			_objectManagerMock.Setup(x => x.HasInstance(It.IsAny<TypeRegistryItem>())).Returns(true);
 
 			_resolver.Resolve(typeof(IOtherTestService));
 
-			_objectFactoryMock.Verify(x => x.Create(It.IsAny<TypeRegistryItem>(), It.IsAny<object[]>()), Times.Never);
+			_objectManagerMock.Verify(x => x.Create(It.IsAny<TypeRegistryItem>(), It.IsAny<object[]>()), Times.Never);
 		}
 
 		private void RegisterType(Type abstraction, Type concrete, LifeCycle lifeCycle)

@@ -8,16 +8,16 @@ namespace Fte.Ioc.Resolver
 	internal class TypeResolver : ITypeResolver
 	{
 		private readonly ITypeRegistry _typeRegistry;
-		private readonly IObjectFactory _objectFactory;
+		private readonly IObjectManager _objectManager;
 		private readonly IDictionary<Type, object> _singletonObjects;
 
-		public TypeResolver(ITypeRegistry typeRegistry, IObjectFactory objectFactory)
+		public TypeResolver(ITypeRegistry typeRegistry, IObjectManager objectFactory)
 		{
 			if (typeRegistry == null) throw new ArgumentNullException("typeRegistry");
 			if (objectFactory == null) throw new ArgumentNullException("objectFactory");
 
 			_typeRegistry = typeRegistry;
-			_objectFactory = objectFactory;
+			_objectManager = objectFactory;
 			_singletonObjects = new Dictionary<Type, object>();
         }
 
@@ -25,13 +25,13 @@ namespace Fte.Ioc.Resolver
 		{
 			var registryItem = _typeRegistry.GetRegistryItem(typeToResolve);
 
-			if (_objectFactory.HasInstance(registryItem))
+			if (_objectManager.HasInstance(registryItem))
 			{
-				return _objectFactory.GetInstance(registryItem);
+				return _objectManager.GetInstance(registryItem);
 			}
 
 			var constructorParamObjects = ResolveConstructorParameters(registryItem.ConcreteType);
-			var resolvedObject = _objectFactory.Create(registryItem, constructorParamObjects.ToArray());
+			var resolvedObject = _objectManager.Create(registryItem, constructorParamObjects.ToArray());
 
 			return resolvedObject;
 		}

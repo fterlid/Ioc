@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace Fte.Ioc.Resolver
 {
-	internal class ObjectFactory : IObjectFactory
+	internal class ObjectManager : IObjectManager
 	{
 		private readonly IDictionary<Type, object> _singletonObjects;
 
-		public ObjectFactory()
+		public ObjectManager()
 		{
 			_singletonObjects = new Dictionary<Type, object>();
 		}

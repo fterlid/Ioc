@@ -59,7 +59,7 @@
     <Compile Include="Registry\TypeRegistryTest.cs" />
     <Compile Include="Registry\TypeRegistryItemTest.cs" />
     <Compile Include="Resolver\TypeResolverTest.cs" />
-    <Compile Include="Resolver\ObjectFactoryTest.cs" />
+    <Compile Include="Resolver\ObjectManagerTest.cs" />
     <Compile Include="Utils\IOtherTestService.cs" />
     <Compile Include="Utils\ITestService.cs" />
     <Compile Include="Utils\OtherTestService.cs" />

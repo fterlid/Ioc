@@ -2,7 +2,7 @@
 
 namespace Fte.Ioc.Resolver
 {
-	internal interface IObjectFactory
+	internal interface IObjectManager
 	{
 		bool HasInstance(TypeRegistryItem registryItem);
 

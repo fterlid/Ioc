@@ -9,8 +9,8 @@ namespace Fte.Ioc
 		public static IContainer GetContainer()
 		{
 			var typeRegistry = new TypeRegistry();
-			var objectFactory = new ObjectFactory();
-			var typeResolver = new TypeResolver(typeRegistry, objectFactory);
+			var objectManager = new ObjectManager();
+			var typeResolver = new TypeResolver(typeRegistry, objectManager);
 
 			return new Container(typeRegistry, typeResolver);
 		}
