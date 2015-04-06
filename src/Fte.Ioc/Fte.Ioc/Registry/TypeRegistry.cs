@@ -28,6 +28,8 @@ namespace Fte.Ioc.Registry
 
 		public TypeRegistryItem GetRegistryItem(Type abstractionType)
 		{
+			if (abstractionType == null) throw new ArgumentNullException("abstractionType");
+
 			var registryItem = _registeredTypes.FirstOrDefault(item => item.AbstractionType == abstractionType);
 
 			if (registryItem == null)

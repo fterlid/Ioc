@@ -23,6 +23,8 @@ namespace Fte.Ioc.Resolver
 
 		public object Resolve(Type typeToResolve)
 		{
+			if (typeToResolve == null) throw new ArgumentNullException("typeToResolve");
+
 			var registryItem = _typeRegistry.GetRegistryItem(typeToResolve);
 
 			if (_objectManager.HasInstance(registryItem))

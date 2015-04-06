@@ -37,6 +37,13 @@ namespace Fte.Ioc.Tests.Resolver
 		}
 
 		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Resolve_TypeIsNull_ThrowsException()
+		{
+			_resolver.Resolve(null);
+		}
+
+		[TestMethod]
 		public void Resolve_TypeIsRegisteredAndHasDefaultConstructor_ObjectIsResolved()
 		{
 			RegisterType(typeof(ITestService), typeof(TestService), LifeCycle.Singleton);

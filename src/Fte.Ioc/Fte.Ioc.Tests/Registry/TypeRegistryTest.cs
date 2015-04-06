@@ -2,6 +2,7 @@
 using Fte.Ioc.Registry;
 using Fte.Ioc.Tests.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace Fte.Ioc.Tests.Registry
 {
@@ -35,6 +36,13 @@ namespace Fte.Ioc.Tests.Registry
 		public void Register_RegisterInterfaceAsConcreteType_ThrowsException()
 		{
 			_registry.Register<ITestService, ITestService>(LifeCycle.Singleton);
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void GetRegistryItem_InputTypeIsNull_ThrowsException()
+		{
+			_registry.GetRegistryItem(null);
 		}
 
 		[TestMethod]
