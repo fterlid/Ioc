@@ -11,13 +11,13 @@ namespace Fte.Ioc.Resolver
 		private readonly IObjectManager _objectManager;
 		private readonly IDictionary<Type, object> _singletonObjects;
 
-		public TypeResolver(ITypeRegistry typeRegistry, IObjectManager objectFactory)
+		public TypeResolver(ITypeRegistry typeRegistry, IObjectManager objectManager)
 		{
 			if (typeRegistry == null) throw new ArgumentNullException("typeRegistry");
-			if (objectFactory == null) throw new ArgumentNullException("objectFactory");
+			if (objectManager == null) throw new ArgumentNullException("objectFactory");
 
 			_typeRegistry = typeRegistry;
-			_objectManager = objectFactory;
+			_objectManager = objectManager;
 			_singletonObjects = new Dictionary<Type, object>();
         }
 
