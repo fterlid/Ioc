@@ -14,7 +14,7 @@ namespace Fte.Ioc.Resolver
 		public TypeResolver(ITypeRegistry typeRegistry, IObjectManager objectManager)
 		{
 			if (typeRegistry == null) throw new ArgumentNullException("typeRegistry");
-			if (objectManager == null) throw new ArgumentNullException("objectFactory");
+			if (objectManager == null) throw new ArgumentNullException("objectManager");
 
 			_typeRegistry = typeRegistry;
 			_objectManager = objectManager;
