@@ -2,6 +2,7 @@
 using Fte.Ioc.Registry;
 using Fte.Ioc.Resolver;
 using Fte.Ioc.Tests.Utils.TestServices;
+using Fte.Ioc.Tests.Utils.TestServices.CircularDependencies;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -77,11 +78,24 @@ namespace Fte.Ioc.Tests.Resolver
 		}
 
 		[TestMethod]
-		[Timeout(5000)]
+		[Timeout(5000)] //Timeout if circular depenceny is not handled
 		[ExpectedException(typeof(CircularDependencyException))]
-		[Ignore]
+		public void Resolve_TypeHasDegenerateCircularDependency_ThrowsException()
+		{
+			RegisterType(typeof(IDegenerateCircularDependency), typeof(DegenerateCircularDependency), LifeCycle.Transient);
+
+			_resolver.Resolve(typeof(IDegenerateCircularDependency));
+		}
+
+		[TestMethod]
+		[Timeout(5000)]	//Timeout if circular depenceny is not handled
+		[ExpectedException(typeof(CircularDependencyException))]
 		public void Resolve_TypeHasSimpleCircularDependency_ThrowsException()
 		{
+			RegisterType(typeof(ISimpleCircularDepenceny), typeof(SimpleCircularDepenceny), LifeCycle.Transient);
+			RegisterType(typeof(IOtherSimpleCircularDepenceny), typeof(OtherSimpleCircularDepenceny), LifeCycle.Transient);
+
+			_resolver.Resolve(typeof(ISimpleCircularDepenceny));
 		}
 
 		private void RegisterType(Type abstraction, Type concrete, LifeCycle lifeCycle)
