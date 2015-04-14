@@ -95,7 +95,8 @@ namespace Fte.Ioc.Resolver
 
 		private class DependencyNode
 		{
-			public Type Type{ get; set; }
+			//TODO: Move to separate file. Take TypeRegistryItem ac ctor arg? Method for returning children?
+			public Type Type { get; set; }
 			public bool Discovered { get; set; }
 		}
 	}
