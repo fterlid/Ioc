@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContainerProvider.cs" />
+    <Compile Include="Exceptions\CircularDependencyException.cs" />
     <Compile Include="Exceptions\ObjectNotCreatedException.cs" />
     <Compile Include="Exceptions\TypeAlreadyRegisteredException.cs" />
     <Compile Include="Exceptions\TypeCannotBeInstantiatedException.cs" />

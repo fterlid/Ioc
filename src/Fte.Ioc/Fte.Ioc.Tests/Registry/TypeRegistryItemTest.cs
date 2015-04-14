@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Fte.Ioc.Tests.Utils;
 using Fte.Ioc.Registry;
+using Fte.Ioc.Tests.Utils.TestServices;
 
 namespace Fte.Ioc.Tests.Registry
 {

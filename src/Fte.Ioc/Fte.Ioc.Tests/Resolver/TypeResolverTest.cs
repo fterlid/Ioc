@@ -1,6 +1,7 @@
-﻿using Fte.Ioc.Registry;
+﻿using Fte.Ioc.Exceptions;
+using Fte.Ioc.Registry;
 using Fte.Ioc.Resolver;
-using Fte.Ioc.Tests.Utils;
+using Fte.Ioc.Tests.Utils.TestServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -73,6 +74,14 @@ namespace Fte.Ioc.Tests.Resolver
 			_resolver.Resolve(typeof(IOtherTestService));
 
 			_objectManagerMock.Verify(x => x.Create(It.IsAny<TypeRegistryItem>(), It.IsAny<object[]>()), Times.Never);
+		}
+
+		[TestMethod]
+		[Timeout(5000)]
+		[ExpectedException(typeof(CircularDependencyException))]
+		[Ignore]
+		public void Resolve_TypeHasSimpleCircularDependency_ThrowsException()
+		{
 		}
 
 		private void RegisterType(Type abstraction, Type concrete, LifeCycle lifeCycle)

@@ -60,10 +60,10 @@
     <Compile Include="Registry\TypeRegistryItemTest.cs" />
     <Compile Include="Resolver\TypeResolverTest.cs" />
     <Compile Include="Resolver\ObjectManagerTest.cs" />
-    <Compile Include="Utils\IOtherTestService.cs" />
-    <Compile Include="Utils\ITestService.cs" />
-    <Compile Include="Utils\OtherTestService.cs" />
-    <Compile Include="Utils\TestService.cs" />
+    <Compile Include="Utils\TestServices\IOtherTestService.cs" />
+    <Compile Include="Utils\TestServices\ITestService.cs" />
+    <Compile Include="Utils\TestServices\OtherTestService.cs" />
+    <Compile Include="Utils\TestServices\TestService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Fte.Ioc\Fte.Ioc.csproj">

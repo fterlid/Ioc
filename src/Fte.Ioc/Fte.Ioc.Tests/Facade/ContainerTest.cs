@@ -1,6 +1,6 @@
 ﻿using Fte.Ioc.Registry;
 using Fte.Ioc.Resolver;
-using Fte.Ioc.Tests.Utils;
+using Fte.Ioc.Tests.Utils.TestServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
