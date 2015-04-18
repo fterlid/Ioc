@@ -60,6 +60,7 @@
     <Compile Include="Registry\TypeRegistryItemTest.cs" />
     <Compile Include="Resolver\TypeResolverTest.cs" />
     <Compile Include="Resolver\ObjectManagerTest.cs" />
+    <Compile Include="Resolver\DependencyNodeTest.cs" />
     <Compile Include="Utils\TestServices\CircularDependencies\DegenerateCircularDependency.cs" />
     <Compile Include="Utils\TestServices\CircularDependencies\SimpleCircularDepenceny.cs" />
     <Compile Include="Utils\TestServices\IOtherTestService.cs" />

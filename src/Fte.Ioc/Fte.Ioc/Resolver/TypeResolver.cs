@@ -64,7 +64,7 @@ namespace Fte.Ioc.Resolver
 			var topologicallySortedTypes = new List<Type>();
 
 			var dfsStack = new Stack<DependencyNode>();
-			dfsStack.Push(new DependencyNode {RegistryItem = _typeRegistry.GetRegistryItem(typeToResolve)});
+			dfsStack.Push(new DependencyNode(_typeRegistry.GetRegistryItem(typeToResolve)));
 			while (dfsStack.Count > 0)
 			{
 				var current = dfsStack.Peek();
@@ -77,7 +77,7 @@ namespace Fte.Ioc.Resolver
 						{
 							throw new CircularDependencyException();
 						}
-						dfsStack.Push(new DependencyNode { RegistryItem = _typeRegistry.GetRegistryItem(child)});
+						dfsStack.Push(new DependencyNode(_typeRegistry.GetRegistryItem(child)));
 					}
 					current.Discovered = true;
 				}
