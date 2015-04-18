@@ -31,7 +31,7 @@ namespace Fte.Ioc.Resolver
 				return _objectManager.GetInstance(registryItem);
 			}
 
-			EnsureAcyclicDependencyGraph(typeToResolve);
+			EnsureAcyclicDependencyGraph(registryItem);
 
 			var constructorParamObjects = ResolveConstructorParameters(registryItem.ConcreteType);
 			var resolvedObject = _objectManager.Create(registryItem, constructorParamObjects.ToArray());
@@ -57,14 +57,14 @@ namespace Fte.Ioc.Resolver
 			}
 		}
 
-		private void EnsureAcyclicDependencyGraph(Type typeToResolve)
+		private void EnsureAcyclicDependencyGraph(TypeRegistryItem typeRegistryItem)
 		{
 			//TODO: Refactor
 
 			var topologicallySortedTypes = new List<Type>();
 
 			var dfsStack = new Stack<DependencyNode>();
-			dfsStack.Push(new DependencyNode(_typeRegistry.GetRegistryItem(typeToResolve)));
+			dfsStack.Push(new DependencyNode(typeRegistryItem));
 			while (dfsStack.Count > 0)
 			{
 				var current = dfsStack.Peek();
