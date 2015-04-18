@@ -31,18 +31,12 @@ namespace Fte.Ioc.Resolver
 				return _objectManager.GetInstance(registryItem);
 			}
 
-			return EnsureAcyclicDependencyGraph(registryItem);
+			return GetDependencyGraphRootInstance(registryItem);
 		}
 
-		private IEnumerable<TypeRegistryItem> GetConstructorParameterItems(Type concreteType)
+		private object GetDependencyGraphRootInstance(TypeRegistryItem typeRegistryItem)
 		{
-			var constructorInfo = concreteType.GetConstructors().First();
-			return constructorInfo.GetParameters().Select(p => _typeRegistry.GetRegistryItem(p.ParameterType));
-		}
-
-		private object EnsureAcyclicDependencyGraph(TypeRegistryItem typeRegistryItem)
-		{
-			// Instead of maintaining a topological sort of the nodes in the dependency tree,
+			// Instead of maintaining a topological sort of the nodes in the dependency graph,
 			// instances of the nodes are stored in a dictionary.
 			var dependencyInstances = new Dictionary<TypeRegistryItem, object>();
 
@@ -68,14 +62,20 @@ namespace Fte.Ioc.Resolver
 				else
 				{
 					dfsStack.Pop();
-					dependencyInstances[current.RegistryItem] = GetObject(current.RegistryItem, dependencyInstances);
+					dependencyInstances[current.RegistryItem] = GetInstance(current.RegistryItem, dependencyInstances);
 				}
 			}
 
 			return dependencyInstances[typeRegistryItem];
 		}
 
-		private object GetObject(TypeRegistryItem itemToInstantiate, Dictionary<TypeRegistryItem, object> dependencyInstances)
+		private IEnumerable<TypeRegistryItem> GetConstructorParameterItems(Type concreteType)
+		{
+			var constructorInfo = concreteType.GetConstructors().First();
+			return constructorInfo.GetParameters().Select(p => _typeRegistry.GetRegistryItem(p.ParameterType));
+		}
+
+		private object GetInstance(TypeRegistryItem itemToInstantiate, Dictionary<TypeRegistryItem, object> dependencyInstances)
 		{
 			if (_objectManager.HasInstance(itemToInstantiate))
 			{
