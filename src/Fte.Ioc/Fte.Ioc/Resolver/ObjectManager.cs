@@ -29,7 +29,7 @@ namespace Fte.Ioc.Resolver
 				return _singletonObjects[registryItem.ConcreteType];
 			}
 
-			throw new ObjectNotCreatedException("Singleton object of type {0} has not been instantiated yet. ");
+			throw new ObjectNotCreatedException($"Singleton object of type {registryItem.AbstractionType} has not been instantiated yet.");
 		}
 
 		public object Create(TypeRegistryItem registryItem, object[] constructorParams)
