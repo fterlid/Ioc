@@ -64,28 +64,27 @@ namespace Fte.Ioc.Resolver
 			var topologicallySortedTypes = new List<Type>();
 
 			var dfsStack = new Stack<DependencyNode>();
-			dfsStack.Push(new DependencyNode { Type = typeToResolve });
+			dfsStack.Push(new DependencyNode {RegistryItem = _typeRegistry.GetRegistryItem(typeToResolve)});
 			while (dfsStack.Count > 0)
 			{
 				var current = dfsStack.Peek();
 				if (!current.Discovered)
 				{
-					var currentRegItem = _typeRegistry.GetRegistryItem(current.Type);
-					var children = GetConstructorParameterTypes(currentRegItem.ConcreteType);
+					var children = GetConstructorParameterTypes(current.RegistryItem.ConcreteType);
 					foreach (var child in children)
 					{
-						if (dfsStack.Any(n => n.Type == child))
+						if (dfsStack.Any(n => n.RegistryItem.AbstractionType == child))
 						{
 							throw new CircularDependencyException();
 						}
-						dfsStack.Push(new DependencyNode { Type = child });
+						dfsStack.Push(new DependencyNode { RegistryItem = _typeRegistry.GetRegistryItem(child)});
 					}
 					current.Discovered = true;
 				}
 				else
 				{
 					dfsStack.Pop();
-					topologicallySortedTypes.Add(current.Type);
+					topologicallySortedTypes.Add(current.RegistryItem.AbstractionType);
 					//TODO: Maintain topological sort of instances instead of types
 				}
 			}
@@ -94,7 +93,7 @@ namespace Fte.Ioc.Resolver
 		private class DependencyNode
 		{
 			//TODO: Move to separate file. Take TypeRegistryItem ac ctor arg? Method for returning children?
-			public Type Type { get; set; }
+			public TypeRegistryItem RegistryItem { get; set; }
 			public bool Discovered { get; set; }
 		}
 	}
