@@ -34,15 +34,6 @@ namespace Fte.Ioc.Resolver
 			return EnsureAcyclicDependencyGraph(registryItem);
 		}
 
-		private IEnumerable<Type> GetConstructorParameterTypes(Type concreteType)
-		{
-			var constructorInfo = concreteType.GetConstructors().First();
-			foreach(var p in constructorInfo.GetParameters())
-			{
-				yield return p.ParameterType;
-			}
-		}
-
 		private IEnumerable<TypeRegistryItem> GetConstructorParameterItems(Type concreteType)
 		{
 			var constructorInfo = concreteType.GetConstructors().First();
@@ -53,7 +44,7 @@ namespace Fte.Ioc.Resolver
 		{
 			// Instead of maintaining a topological sort of the nodes in the dependency tree,
 			// instances of the nodes are stored in a dictionary.
-			var dependencyInstances = new Dictionary<Type, object>();
+			var dependencyInstances = new Dictionary<TypeRegistryItem, object>();
 
 			var dfsStack = new Stack<DependencyNode>();
 			dfsStack.Push(new DependencyNode(typeRegistryItem));
@@ -77,27 +68,22 @@ namespace Fte.Ioc.Resolver
 				else
 				{
 					dfsStack.Pop();
-					dependencyInstances[current.RegistryItem.AbstractionType] = GetObject(current.RegistryItem, dependencyInstances);
+					dependencyInstances[current.RegistryItem] = GetObject(current.RegistryItem, dependencyInstances);
 				}
 			}
 
-			return dependencyInstances[typeRegistryItem.AbstractionType];
+			return dependencyInstances[typeRegistryItem];
 		}
 
-		private object GetObject(TypeRegistryItem registryItem, Dictionary<Type, object> dependencyInstances)
+		private object GetObject(TypeRegistryItem itemToInstantiate, Dictionary<TypeRegistryItem, object> dependencyInstances)
 		{
-			if (_objectManager.HasInstance(registryItem))
+			if (_objectManager.HasInstance(itemToInstantiate))
 			{
-				return _objectManager.GetInstance(registryItem);
+				return _objectManager.GetInstance(itemToInstantiate);
 			}
 
-			var ctorParameterTypes = GetConstructorParameterTypes(registryItem.ConcreteType);
-			var ctorParameterInstances = new List<object>();
-			foreach (var type in ctorParameterTypes)
-			{
-				ctorParameterInstances.Add(dependencyInstances[type]);
-			}
-			return _objectManager.Create(registryItem, ctorParameterInstances.ToArray());
+			var ctorParameterItems = GetConstructorParameterItems(itemToInstantiate.ConcreteType);
+			return _objectManager.Create(itemToInstantiate, ctorParameterItems.Select(regItem => dependencyInstances[regItem]).ToArray());
 		}
 	}
 }
