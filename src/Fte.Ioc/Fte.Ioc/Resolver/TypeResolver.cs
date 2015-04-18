@@ -57,12 +57,14 @@ namespace Fte.Ioc.Resolver
 			}
 		}
 
+		private IEnumerable<TypeRegistryItem> GetConstructorParameterItems(Type concreteType)
+		{
+			var constructorInfo = concreteType.GetConstructors().First();
+			return constructorInfo.GetParameters().Select(p => _typeRegistry.GetRegistryItem(p.ParameterType));
+		}
+
 		private void EnsureAcyclicDependencyGraph(TypeRegistryItem typeRegistryItem)
 		{
-			//TODO: Refactor
-
-			var topologicallySortedTypes = new List<Type>();
-
 			var dfsStack = new Stack<DependencyNode>();
 			dfsStack.Push(new DependencyNode(typeRegistryItem));
 			while (dfsStack.Count > 0)
@@ -70,22 +72,21 @@ namespace Fte.Ioc.Resolver
 				var current = dfsStack.Peek();
 				if (!current.Discovered)
 				{
-					var children = GetConstructorParameterTypes(current.RegistryItem.ConcreteType);
+					var children = GetConstructorParameterItems(current.RegistryItem.ConcreteType);
 					foreach (var child in children)
 					{
-						if (dfsStack.Any(n => n.RegistryItem.AbstractionType == child))
+						if (dfsStack.Any(n => n.RegistryItem.AbstractionType == child.AbstractionType))
 						{
 							throw new CircularDependencyException();
 						}
-						dfsStack.Push(new DependencyNode(_typeRegistry.GetRegistryItem(child)));
+						dfsStack.Push(new DependencyNode(child));
 					}
 					current.Discovered = true;
 				}
 				else
 				{
 					dfsStack.Pop();
-					topologicallySortedTypes.Add(current.RegistryItem.AbstractionType);
-					//TODO: Maintain topological sort of instances instead of types
+					//TODO: Maintain topological sort of instances instead of types => instantiate current.RegistryItem ... here
 				}
 			}
 		}
