@@ -35,7 +35,7 @@ namespace Fte.Ioc.Resolver
 		public object Create(TypeRegistryItem registryItem, object[] constructorParams)
 		{
 			AssertTypeRegistryItem(registryItem);
-			if (constructorParams == null) throw new ArgumentNullException("constructorParams");
+			if (constructorParams == null) throw new ArgumentNullException(nameof(constructorParams));
 
 			var concreteType = registryItem.ConcreteType;
 
@@ -63,7 +63,7 @@ namespace Fte.Ioc.Resolver
 		{
 			if (registryItem == null)
 			{
-				throw new ArgumentNullException("registryItem");
+				throw new ArgumentNullException(nameof(registryItem));
 			}
 		}
 	}

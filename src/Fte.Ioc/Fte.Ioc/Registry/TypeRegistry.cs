@@ -28,13 +28,13 @@ namespace Fte.Ioc.Registry
 
 		public TypeRegistryItem GetRegistryItem(Type abstractionType)
 		{
-			if (abstractionType == null) throw new ArgumentNullException("abstractionType");
+			if (abstractionType == null) throw new ArgumentNullException(nameof(abstractionType));
 
 			var registryItem = _registeredTypes.FirstOrDefault(item => item.AbstractionType == abstractionType);
 
 			if (registryItem == null)
 			{
-				throw new TypeNotRegisteredException(string.Format("Type {0} is not registered.", abstractionType.Name)); 
+				throw new TypeNotRegisteredException($"Type {abstractionType.Name} is not registered."); 
 			}
 
 			return registryItem;
@@ -44,7 +44,7 @@ namespace Fte.Ioc.Registry
 		{
 			if (_registeredTypes.Any(x => x.AbstractionType == abstractionType))
 			{
-				throw new TypeAlreadyRegisteredException(string.Format("Type {0} is already registered.", abstractionType.Name));
+				throw new TypeAlreadyRegisteredException($"Type {abstractionType.Name} is already registered.");
 			}
 		}
 
@@ -52,7 +52,7 @@ namespace Fte.Ioc.Registry
 		{
 			if (!concreteType.GetConstructors().Any())
 			{
-				throw new TypeCannotBeInstantiatedException(string.Format("Could not find any constructors for type {0}", concreteType.Name));
+				throw new TypeCannotBeInstantiatedException($"Could not find any constructors for type {concreteType.Name}");
 			}
 		}
 	}
