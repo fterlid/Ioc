@@ -13,8 +13,8 @@ namespace Fte.Ioc.Resolver
 
 		public TypeResolver(ITypeRegistry typeRegistry, IObjectManager objectManager)
 		{
-			if (typeRegistry == null) throw new ArgumentNullException("typeRegistry");
-			if (objectManager == null) throw new ArgumentNullException("objectManager");
+			if (typeRegistry == null) throw new ArgumentNullException(nameof(typeRegistry));
+			if (objectManager == null) throw new ArgumentNullException(nameof(objectManager));
 
 			_typeRegistry = typeRegistry;
 			_objectManager = objectManager;
@@ -22,7 +22,7 @@ namespace Fte.Ioc.Resolver
 
 		public object Resolve(Type typeToResolve)
 		{
-			if (typeToResolve == null) throw new ArgumentNullException("typeToResolve");
+			if (typeToResolve == null) throw new ArgumentNullException(nameof(typeToResolve));
 
 			var registryItem = _typeRegistry.GetRegistryItem(typeToResolve);
 
