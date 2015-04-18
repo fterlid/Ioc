@@ -11,8 +11,8 @@ namespace Fte.Ioc.Registry
 
 		public TypeRegistryItem(Type abstractionType, Type concreteType, LifeCycle lifeCycle)
 		{
-			if (abstractionType == null) throw new ArgumentNullException("abstractionType");
-			if (concreteType == null) throw new ArgumentNullException("concreteType");
+			if (abstractionType == null) throw new ArgumentNullException(nameof(abstractionType));
+			if (concreteType == null) throw new ArgumentNullException(nameof(concreteType));
 
 			AbstractionType = abstractionType;
 			ConcreteType = concreteType;
