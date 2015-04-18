@@ -10,7 +10,6 @@ namespace Fte.Ioc.Resolver
 	{
 		private readonly ITypeRegistry _typeRegistry;
 		private readonly IObjectManager _objectManager;
-		private readonly IDictionary<Type, object> _singletonObjects;
 
 		public TypeResolver(ITypeRegistry typeRegistry, IObjectManager objectManager)
 		{
@@ -19,7 +18,6 @@ namespace Fte.Ioc.Resolver
 
 			_typeRegistry = typeRegistry;
 			_objectManager = objectManager;
-			_singletonObjects = new Dictionary<Type, object>();
         }
 
 		public object Resolve(Type typeToResolve)
