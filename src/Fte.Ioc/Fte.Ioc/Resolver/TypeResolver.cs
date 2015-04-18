@@ -89,12 +89,5 @@ namespace Fte.Ioc.Resolver
 				}
 			}
 		}
-
-		private class DependencyNode
-		{
-			//TODO: Move to separate file. Take TypeRegistryItem ac ctor arg? Method for returning children?
-			public TypeRegistryItem RegistryItem { get; set; }
-			public bool Discovered { get; set; }
-		}
 	}
 }

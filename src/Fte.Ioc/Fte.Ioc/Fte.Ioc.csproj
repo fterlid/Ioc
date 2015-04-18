@@ -52,6 +52,7 @@
     <Compile Include="Registry\ITypeRegistry.cs" />
     <Compile Include="Registry\TypeRegistry.cs" />
     <Compile Include="Registry\TypeRegistryItem.cs" />
+    <Compile Include="Resolver\DependencyNode.cs" />
     <Compile Include="Resolver\IObjectManager.cs" />
     <Compile Include="Resolver\ITypeResolver.cs" />
     <Compile Include="Resolver\ObjectManager.cs" />
