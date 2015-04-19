@@ -24,8 +24,7 @@ namespace Fte.Ioc.Registry
 
 			foreach (var type in assignableTypes)
 			{
-				var item = new TypeRegistryItem(type, type, lifeCycle);
-				_registeredTypes.Add(item);
+				_registeredTypes.Add(new TypeRegistryItem(type, type, lifeCycle));
 			}
 		}
 
@@ -37,8 +36,7 @@ namespace Fte.Ioc.Registry
 			var concreteType = typeof(TConcrete);
 			AssertTypeCanBeInstantiated(concreteType);
 
-			var item = new TypeRegistryItem(abstractionType, concreteType, lifeCycle);
-			_registeredTypes.Add(item);
+			_registeredTypes.Add(new TypeRegistryItem(abstractionType, concreteType, lifeCycle));
         }
 
 		public TypeRegistryItem GetRegistryItem(Type abstractionType)
