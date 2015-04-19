@@ -44,6 +44,17 @@ namespace Fte.Ioc.Tests.Registry
 		}
 
 		[TestMethod]
+		public void Discover_ThisAssembly_RegisteredItemsHasCorrectLifeCycle()
+		{
+			var assembly = GetType().Assembly;
+			_registry.Discover<IDiscoveredService>(assembly, LifeCycle.Singleton);
+
+			var regItem = _registry.GetRegistryItem(typeof (DiscoveredService));
+
+			Assert.AreEqual(LifeCycle.Singleton, regItem.LifeCycle);
+		}
+
+		[TestMethod]
 		[ExpectedException(typeof(TypeAlreadyRegisteredException))]
 		public void Register_RegisterTypeTwice_ThrowsException()
 		{
