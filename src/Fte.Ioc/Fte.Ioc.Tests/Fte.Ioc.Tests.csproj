@@ -64,6 +64,7 @@
     <Compile Include="Utils\TestServices\CircularDependencies\ComplexCircularDependency.cs" />
     <Compile Include="Utils\TestServices\CircularDependencies\DegenerateCircularDependency.cs" />
     <Compile Include="Utils\TestServices\CircularDependencies\SimpleCircularDepenceny.cs" />
+    <Compile Include="Utils\TestServices\DiscoveredService.cs" />
     <Compile Include="Utils\TestServices\IOtherTestService.cs" />
     <Compile Include="Utils\TestServices\ITestService.cs" />
     <Compile Include="Utils\TestServices\OtherTestService.cs" />

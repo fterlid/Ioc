@@ -17,7 +17,16 @@ namespace Fte.Ioc.Registry
 
 		public void Discover<T>(Assembly assembly, LifeCycle lifeCycle) where T : class
 		{
-			throw new NotImplementedException();
+			if (assembly == null) throw new ArgumentNullException(nameof(assembly));
+
+			var baseType = typeof (T);
+			var assignableTypes = assembly.GetTypes().Where(t => baseType.IsAssignableFrom(t));
+
+			foreach (var type in assignableTypes)
+			{
+				var item = new TypeRegistryItem(type, type, lifeCycle);
+				_registeredTypes.Add(item);
+			}
 		}
 
 		public void Register<TAbstraction, TConcrete>(LifeCycle lifeCycle) where TConcrete : TAbstraction

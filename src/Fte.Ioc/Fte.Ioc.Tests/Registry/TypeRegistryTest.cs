@@ -24,6 +24,26 @@ namespace Fte.Ioc.Tests.Registry
 		}
 
 		[TestMethod]
+		[ExpectedException(typeof (ArgumentNullException))]
+		public void Discover_AssemblyAsNull_ThrowsException()
+		{
+			_registry.Discover<ITestService>(null, LifeCycle.Transient);
+		}
+
+		[TestMethod]
+		public void Discover_ThisAssembly_RegistersDiscoveredServiceInstances()
+		{
+			var assembly = GetType().Assembly;
+			_registry.Discover<IDiscoveredService>(assembly, LifeCycle.Transient);
+
+			var regItem1 = _registry.GetRegistryItem(typeof (DiscoveredService));
+			var regItem2 = _registry.GetRegistryItem(typeof (OtherDiscoveredService));
+
+			Assert.IsNotNull(regItem1);
+			Assert.IsNotNull(regItem2);
+		}
+
+		[TestMethod]
 		[ExpectedException(typeof(TypeAlreadyRegisteredException))]
 		public void Register_RegisterTypeTwice_ThrowsException()
 		{
