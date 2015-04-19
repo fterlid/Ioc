@@ -48,7 +48,7 @@ namespace Fte.Ioc.Resolver
 				var current = dfsStack.Peek();
 				if (!current.Discovered)
 				{
-					var children = GetConstructorParameterItems(current.RegistryItem.ConcreteType);
+					var children = GetConstructorParameterItems(current.RegistryItem);
 					foreach (var child in children)
 					{
 						if (dfsStack.Any(n => n.RegistryItem.AbstractionType == child.AbstractionType))
@@ -69,9 +69,9 @@ namespace Fte.Ioc.Resolver
 			return dependencyInstances[typeRegistryItem];
 		}
 
-		private IEnumerable<TypeRegistryItem> GetConstructorParameterItems(Type concreteType)
+		private IEnumerable<TypeRegistryItem> GetConstructorParameterItems(TypeRegistryItem registryItem)
 		{
-			var constructorInfo = concreteType.GetConstructors().First();
+			var constructorInfo = registryItem.ConcreteType.GetConstructors().First();
 			return constructorInfo.GetParameters().Select(p => _typeRegistry.GetRegistryItem(p.ParameterType));
 		}
 
@@ -82,7 +82,7 @@ namespace Fte.Ioc.Resolver
 				return _objectManager.GetInstance(itemToInstantiate);
 			}
 
-			var ctorParameterItems = GetConstructorParameterItems(itemToInstantiate.ConcreteType);
+			var ctorParameterItems = GetConstructorParameterItems(itemToInstantiate);
 			return _objectManager.Create(itemToInstantiate, ctorParameterItems.Select(regItem => dependencyInstances[regItem]).ToArray());
 		}
 	}
