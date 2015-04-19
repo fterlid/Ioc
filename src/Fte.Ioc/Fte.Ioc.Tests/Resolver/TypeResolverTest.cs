@@ -78,6 +78,20 @@ namespace Fte.Ioc.Tests.Resolver
 		}
 
 		[TestMethod]
+		public void Resolve_TransientWithSingletonDependency_SingletonIsCreatedOnce()
+		{
+			RegisterType(typeof(ITestService), typeof(TestService), LifeCycle.Singleton);
+			RegisterType(typeof(IOtherTestService), typeof(OtherTestService), LifeCycle.Transient);
+			_objectManagerMock.Setup(x => x.HasInstance(
+				It.Is<TypeRegistryItem>(y => y.LifeCycle == LifeCycle.Singleton)))
+				.Returns(true);
+
+			_resolver.Resolve(typeof(IOtherTestService));
+
+			_objectManagerMock.Verify(x => x.Create(It.IsAny<TypeRegistryItem>(), It.IsAny<object[]>()), Times.Once);
+		}
+
+		[TestMethod]
 		[Timeout(5000)] //Timeout if circular depenceny is not handled
 		[ExpectedException(typeof(CircularDependencyException))]
 		public void Resolve_TypeHasDegenerateCircularDependency_ThrowsException()
