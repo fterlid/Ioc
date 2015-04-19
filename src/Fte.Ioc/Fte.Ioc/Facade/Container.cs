@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Fte.Ioc.Registry;
 using Fte.Ioc.Resolver;
 
@@ -17,6 +18,16 @@ namespace Fte.Ioc.Facade
 
 			_typeRegistry = typeRegistry;
 			_typeResolver = typeResolver;
+		}
+
+		public void Discover<T>(Assembly assembly) where T : class
+		{
+			Discover<T>(assembly, DefaultLifeCycle);
+		}
+
+		public void Discover<T>(Assembly assembly, LifeCycle lifeCycle) where T : class
+		{
+			_typeRegistry.Discover<T>(assembly, lifeCycle);
 		}
 
 		public void Register<TConcrete>() where TConcrete : class

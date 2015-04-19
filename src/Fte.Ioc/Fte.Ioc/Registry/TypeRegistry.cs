@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.Reflection;
 
 namespace Fte.Ioc.Registry
 {
@@ -12,6 +13,11 @@ namespace Fte.Ioc.Registry
 		public TypeRegistry()
 		{
 			_registeredTypes = new List<TypeRegistryItem>();
+		}
+
+		public void Discover<T>(Assembly assembly, LifeCycle lifeCycle) where T : class
+		{
+			throw new NotImplementedException();
 		}
 
 		public void Register<TAbstraction, TConcrete>(LifeCycle lifeCycle) where TConcrete : TAbstraction

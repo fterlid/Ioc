@@ -1,11 +1,12 @@
-﻿using Fte.Ioc.Registry;
+﻿using System;
+using Fte.Ioc.Facade;
+using Fte.Ioc.Registry;
 using Fte.Ioc.Resolver;
 using Fte.Ioc.Tests.Utils.TestServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
 
-namespace Fte.Ioc.Facade.Tests
+namespace Fte.Ioc.Tests.Facade
 {
 	[TestClass]
 	public class ContainerTest
@@ -34,6 +35,22 @@ namespace Fte.Ioc.Facade.Tests
 		public void Ctor_TypeResolverIsNull_ThrowsException()
 		{
 			var container = new Container(_registryMock.Object, null);
+		}
+
+		[TestMethod]
+		public void Discover_LifeCycleNotProvided_CallsServiceWithTransientLifeCycle()
+		{
+			var assembly = GetType().Assembly;
+			_container.Discover<ITestService>(assembly);
+			_registryMock.Verify(x => x.Discover<ITestService>(assembly, LifeCycle.Transient), Times.Once);
+		}
+
+		[TestMethod]
+		public void Discover_LifeCycleProvided_CallsServiceWithProvidedLifeCycle()
+		{
+			var assembly = GetType().Assembly;
+			_container.Discover<ITestService>(assembly, LifeCycle.Singleton);
+			_registryMock.Verify(x => x.Discover<ITestService>(assembly, LifeCycle.Singleton), Times.Once);
 		}
 
 		[TestMethod]
