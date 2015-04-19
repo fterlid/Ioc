@@ -1,5 +1,5 @@
-﻿using Fte.Ioc.Demo.Services;
-using Fte.Ioc.Demo.Web.Controllers;
+﻿using System.Web.Mvc;
+using Fte.Ioc.Demo.Services;
 using Fte.Ioc.Facade;
 
 namespace Fte.Ioc.Demo.Web.Infrastructure
@@ -8,7 +8,8 @@ namespace Fte.Ioc.Demo.Web.Infrastructure
 	{
 		public static void Configure(IContainer container)
 		{
-			container.Register<HomeController>();
+			container.Discover<IController>(typeof(FteIocBootstrapper).Assembly);
+
 			container.Register<ISomeOtherService, SomeOtherService>();
 			container.Register<ISomeService, SomeService>(LifeCycle.Singleton);
 		}
