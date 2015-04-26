@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Fte.Ioc.Exceptions;
 using Fte.Ioc.Registry;
@@ -7,11 +8,11 @@ namespace Fte.Ioc.ObjectManagement
 {
 	internal class ObjectManager : IObjectManager
 	{
-		private readonly IDictionary<Type, object> _singletonObjects;
+		private readonly ConcurrentDictionary<Type, object> _singletonObjects;
 
 		public ObjectManager()
 		{
-			_singletonObjects = new Dictionary<Type, object>();
+			_singletonObjects = new ConcurrentDictionary<Type, object>();
 		}
 
 		public bool HasInstance(TypeRegistryItem registryItem)
@@ -29,7 +30,8 @@ namespace Fte.Ioc.ObjectManagement
 				return _singletonObjects[registryItem.ConcreteType];
 			}
 
-			throw new ObjectNotCreatedException($"Singleton object of type {registryItem.AbstractionType} has not been instantiated yet.");
+			throw new ObjectNotCreatedException($"Singleton object of type {registryItem.AbstractionType} has not been instantiated yet." + 
+				"Only call this method if HasInstance returns true.");
 		}
 
 		public object Create(TypeRegistryItem registryItem, object[] constructorParams)
@@ -53,7 +55,8 @@ namespace Fte.Ioc.ObjectManagement
 
 			if (lifeCycle == LifeCycle.Singleton)
 			{
-				_singletonObjects.Add(concreteType, instance);
+				_singletonObjects.TryAdd(concreteType, instance);
+				return _singletonObjects[concreteType];
 			}
 
 			return instance;
