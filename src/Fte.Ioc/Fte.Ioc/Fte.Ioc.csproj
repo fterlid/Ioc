@@ -48,14 +48,14 @@
     <Compile Include="Facade\Container.cs" />
     <Compile Include="Facade\IContainer.cs" />
     <Compile Include="LifeCycle.cs" />
+    <Compile Include="ObjectManagement\IObjectManager.cs" />
+    <Compile Include="ObjectManagement\ObjectManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registry\ITypeRegistry.cs" />
     <Compile Include="Registry\TypeRegistry.cs" />
     <Compile Include="Registry\TypeRegistryItem.cs" />
     <Compile Include="Resolver\DependencyNode.cs" />
-    <Compile Include="Resolver\IObjectManager.cs" />
     <Compile Include="Resolver\ITypeResolver.cs" />
-    <Compile Include="Resolver\ObjectManager.cs" />
     <Compile Include="Resolver\TypeResolver.cs" />
   </ItemGroup>
   <ItemGroup />

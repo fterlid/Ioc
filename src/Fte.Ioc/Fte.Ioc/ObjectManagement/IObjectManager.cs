@@ -1,6 +1,6 @@
 ﻿using Fte.Ioc.Registry;
 
-namespace Fte.Ioc.Resolver
+namespace Fte.Ioc.ObjectManagement
 {
 	internal interface IObjectManager
 	{

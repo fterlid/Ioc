@@ -1,9 +1,9 @@
-﻿using Fte.Ioc.Exceptions;
-using Fte.Ioc.Registry;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Fte.Ioc.Exceptions;
+using Fte.Ioc.Registry;
 
-namespace Fte.Ioc.Resolver
+namespace Fte.Ioc.ObjectManagement
 {
 	internal class ObjectManager : IObjectManager
 	{

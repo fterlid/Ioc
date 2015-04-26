@@ -6,6 +6,7 @@ using Fte.Ioc.Tests.Utils.TestServices.CircularDependencies;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using Fte.Ioc.ObjectManagement;
 
 namespace Fte.Ioc.Tests.Resolver
 {

@@ -1,11 +1,11 @@
-﻿using Fte.Ioc.Exceptions;
+﻿using System;
+using Fte.Ioc.Exceptions;
+using Fte.Ioc.ObjectManagement;
 using Fte.Ioc.Registry;
-using Fte.Ioc.Resolver;
 using Fte.Ioc.Tests.Utils.TestServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
-namespace Fte.Ioc.Tests.Resolver
+namespace Fte.Ioc.Tests.ObjectManagement
 {
 	[TestClass]
 	public class ObjectManagerTest

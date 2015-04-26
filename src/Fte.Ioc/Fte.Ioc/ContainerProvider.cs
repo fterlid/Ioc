@@ -1,4 +1,5 @@
 ﻿using Fte.Ioc.Facade;
+using Fte.Ioc.ObjectManagement;
 using Fte.Ioc.Registry;
 using Fte.Ioc.Resolver;
 

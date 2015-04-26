@@ -3,6 +3,7 @@ using Fte.Ioc.Registry;
 using System.Collections.Generic;
 using System.Linq;
 using Fte.Ioc.Exceptions;
+using Fte.Ioc.ObjectManagement;
 
 namespace Fte.Ioc.Resolver
 {
