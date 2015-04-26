@@ -75,7 +75,7 @@ namespace Fte.Ioc.Resolver
 			return constructorInfo.GetParameters().Select(p => _typeRegistry.GetRegistryItem(p.ParameterType));
 		}
 
-		private object GetInstance(TypeRegistryItem itemToInstantiate, Dictionary<TypeRegistryItem, object> dependencyInstances)
+		private object GetInstance(TypeRegistryItem itemToInstantiate, IReadOnlyDictionary<TypeRegistryItem, object> dependencyInstances)
 		{
 			if (_objectManager.HasInstance(itemToInstantiate))
 			{
