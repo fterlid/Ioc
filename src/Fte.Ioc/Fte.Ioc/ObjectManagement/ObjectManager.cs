@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using Fte.Ioc.Exceptions;
 using Fte.Ioc.Registry;
 
