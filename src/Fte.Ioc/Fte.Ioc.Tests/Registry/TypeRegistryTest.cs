@@ -1,36 +1,47 @@
-﻿using Fte.Ioc.Exceptions;
+﻿using System;
+using Fte.Ioc.Exceptions;
 using Fte.Ioc.Registry;
 using Fte.Ioc.Tests.Utils.TestServices;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+using NUnit.Framework;
 
 namespace Fte.Ioc.Tests.Registry
 {
-	[TestClass]
+	[TestFixture]
 	public class TypeRegistryTest
 	{
 		private TypeRegistry _registry;
 
-		[TestInitialize]
+		[SetUp]
 		public void TestInitialize()
 		{
 			_registry = new TypeRegistry();
 		}
 
-		[TestMethod]
-		public void Register_RegisterType_Void()
+		[Test]
+		public void Register_RegisterType_TypeIsRegistered()
 		{
 			_registry.Register<ITestService, TestService>(LifeCycle.Singleton);
+
+			var registeredType = _registry.GetRegistryItem(typeof (ITestService));
+
+			Assert.NotNull(registeredType);
+			Assert.AreEqual(typeof(ITestService), registeredType.AbstractionType);
+			Assert.AreEqual(typeof(TestService), registeredType.ConcreteType);
+			Assert.AreEqual(LifeCycle.Singleton, registeredType.LifeCycle);
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof (ArgumentNullException))]
+		[Test]
 		public void Discover_AssemblyAsNull_ThrowsException()
 		{
-			_registry.Discover<ITestService>(null, LifeCycle.Transient);
+			var ex = Assert.Catch<ArgumentNullException>(() =>
+			{
+				_registry.Discover<ITestService>(null, LifeCycle.Transient);
+			});
+
+			StringAssert.Contains("assembly", ex.Message);
 		}
 
-		[TestMethod]
+		[Test]
 		public void Discover_ThisAssembly_RegistersDiscoveredServiceInstances()
 		{
 			var assembly = GetType().Assembly;
@@ -43,7 +54,7 @@ namespace Fte.Ioc.Tests.Registry
 			Assert.IsNotNull(regItem2);
 		}
 
-		[TestMethod]
+		[Test]
 		public void Discover_ThisAssembly_RegisteredItemsHasCorrectLifeCycle()
 		{
 			var assembly = GetType().Assembly;
@@ -54,36 +65,47 @@ namespace Fte.Ioc.Tests.Registry
 			Assert.AreEqual(LifeCycle.Singleton, regItem.LifeCycle);
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof(TypeAlreadyRegisteredException))]
+		[Test]
 		public void Register_RegisterTypeTwice_ThrowsException()
 		{
 			_registry.Register<ITestService, TestService>(LifeCycle.Singleton);
-			_registry.Register<ITestService, TestService>(LifeCycle.Singleton);
+
+			Assert.Catch<TypeAlreadyRegisteredException>(() =>
+			{
+				_registry.Register<ITestService, TestService>(LifeCycle.Singleton);
+			});
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof(TypeCannotBeInstantiatedException))]
+		[Test]
 		public void Register_RegisterInterfaceAsConcreteType_ThrowsException()
 		{
-			_registry.Register<ITestService, ITestService>(LifeCycle.Singleton);
+			Assert.Catch<TypeCannotBeInstantiatedException>(() =>
+			{
+				_registry.Register<ITestService, ITestService>(LifeCycle.Singleton);
+			});
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
+		[Test]
 		public void GetRegistryItem_InputTypeIsNull_ThrowsException()
 		{
-			_registry.GetRegistryItem(null);
+			var ex = Assert.Catch<ArgumentNullException>(() =>
+			{
+				_registry.GetRegistryItem(null);
+			});
+
+			StringAssert.Contains("abstractionType", ex.Message);
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof(TypeNotRegisteredException))]
+		[Test]
 		public void GetRegistryItem_InputTypeIsNotRegistered_ThrowsException()
 		{
-			_registry.GetRegistryItem(typeof(ITestService));
+			Assert.Catch<TypeNotRegisteredException>(() =>
+			{
+				_registry.GetRegistryItem(typeof(ITestService));
+			});
 		}
 
-		[TestMethod]
+		[Test]
 		public void GetRegistryItem_InputTypeIsRegistered_ReturnsItem()
 		{
 			_registry.Register<ITestService, TestService>(LifeCycle.Singleton);
