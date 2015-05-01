@@ -1,17 +1,19 @@
 ﻿using System;
 using Fte.Ioc.Resolver;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Fte.Ioc.Tests.Resolver
 {
-	[TestClass]
+	[TestFixture]
 	public class DependencyNodeTest
 	{
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
+		[Test]
 		public void ctor_RegistryItemAsNull_ThrowsException()
 		{
-			var node = new DependencyNode(null);
+			Assert.Catch<ArgumentNullException>(() =>
+			{
+				new DependencyNode(null);
+			});
 		}
 	}
 }
