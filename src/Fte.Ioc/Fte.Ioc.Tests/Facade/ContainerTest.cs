@@ -3,41 +3,41 @@ using Fte.Ioc.Facade;
 using Fte.Ioc.Registry;
 using Fte.Ioc.Resolver;
 using Fte.Ioc.Tests.Utils.TestServices;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using NUnit.Framework;
 
 namespace Fte.Ioc.Tests.Facade
 {
-	[TestClass]
+	[TestFixture]
 	public class ContainerTest
 	{
 		private Mock<ITypeRegistry> _registryMock;
 		private Mock<ITypeResolver> _resolverMock;
 		private IContainer _container;
 
-		[TestInitialize]
-		public void TestInitialize()
+		[SetUp]
+		public void Setup()
 		{
 			_registryMock = new Mock<ITypeRegistry>();
 			_resolverMock = new Mock<ITypeResolver>();
 			_container = new Container(_registryMock.Object, _resolverMock.Object);
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
+		[Test]
 		public void Ctor_TypeRegistryIsNull_ThrowsException()
 		{
-			var container = new Container(null, _resolverMock.Object);
+			var ex = Assert.Catch<ArgumentNullException>(()=> new Container(null, _resolverMock.Object));
+			StringAssert.Contains("typeRegistry", ex.Message);
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
+		[Test]
 		public void Ctor_TypeResolverIsNull_ThrowsException()
 		{
-			var container = new Container(_registryMock.Object, null);
+			var ex = Assert.Catch<ArgumentNullException>(() => new Container(_registryMock.Object, null));
+			StringAssert.Contains("typeResolver", ex.Message);
 		}
 
-		[TestMethod]
+		[Test]
 		public void Discover_LifeCycleNotProvided_CallsServiceWithTransientLifeCycle()
 		{
 			var assembly = GetType().Assembly;
@@ -45,7 +45,7 @@ namespace Fte.Ioc.Tests.Facade
 			_registryMock.Verify(x => x.Discover<ITestService>(assembly, LifeCycle.Transient), Times.Once);
 		}
 
-		[TestMethod]
+		[Test]
 		public void Discover_LifeCycleProvided_CallsServiceWithProvidedLifeCycle()
 		{
 			var assembly = GetType().Assembly;
@@ -53,36 +53,36 @@ namespace Fte.Ioc.Tests.Facade
 			_registryMock.Verify(x => x.Discover<ITestService>(assembly, LifeCycle.Singleton), Times.Once);
 		}
 
-		[TestMethod]
+		[Test]
 		public void Register_GenericOneTypeWithoutParameter_CallsServiceWithTransientLifeCycle()
 		{
 			_container.Register<TestService>();
 			_registryMock.Verify(x => x.Register<TestService, TestService>(LifeCycle.Transient), Times.Once);
 		}
 
-		[TestMethod]
+		[Test]
 		public void Register_GenericOneTypeWithtParameter_CallsServiceWithCorrectLifeCycle()
 		{
 			_container.Register<TestService>(LifeCycle.Singleton);
 			_registryMock.Verify(x => x.Register<TestService, TestService>(LifeCycle.Singleton), Times.Once);
 		}
 
-		[TestMethod]
+		[Test]
 		public void Register_GenericTwoTypesWithoutParameter_CallsServiceWithTransientLifeCycle()
 		{
 			_container.Register<ITestService, TestService>();
 			_registryMock.Verify(x => x.Register<ITestService, TestService>(LifeCycle.Transient), Times.Once);
 		}
 
-		[TestMethod]
+		[Test]
 		public void Register_GenericTwoTypesWithtParameter_CallsServiceWithCorrectLifeCycle()
 		{
 			_container.Register<ITestService, TestService>(LifeCycle.Singleton);
 			_registryMock.Verify(x => x.Register<ITestService, TestService>(LifeCycle.Singleton), Times.Once);
 		}
 
-		[TestMethod]
-		public void Resolve_Unparameterized_CallsServiceWithCorrectType()
+		[Test]
+		public void Resolve_WhenCalled_CallsServiceWithCorrectType()
 		{
 			_container.Resolve(typeof(ITestService));
 			_resolverMock.Verify(x => x.Resolve(typeof(ITestService)), Times.Once);
