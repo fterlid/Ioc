@@ -26,23 +26,31 @@ namespace Fte.Ioc.Tests.Facade
 		[Test]
 		public void Ctor_TypeRegistryIsNull_ThrowsException()
 		{
-			var ex = Assert.Catch<ArgumentNullException>(()=> new Container(null, _resolverMock.Object));
+			var ex = Assert.Catch<ArgumentNullException>(() =>
+			{
+				new Container(null, _resolverMock.Object);
+			});
+
 			StringAssert.Contains("typeRegistry", ex.Message);
 		}
 
 		[Test]
 		public void Ctor_TypeResolverIsNull_ThrowsException()
 		{
-			var ex = Assert.Catch<ArgumentNullException>(() => new Container(_registryMock.Object, null));
+			var ex = Assert.Catch<ArgumentNullException>(() =>
+			{
+				new Container(_registryMock.Object, null);
+			});
+
 			StringAssert.Contains("typeResolver", ex.Message);
 		}
 
 		[Test]
-		public void Discover_LifeCycleNotProvided_CallsServiceWithTransientLifeCycle()
+		public void Discover_LifeCycleNotProvided_CallsServiceWithDefaultLifeCycle()
 		{
 			var assembly = GetType().Assembly;
 			_container.Discover<ITestService>(assembly);
-			_registryMock.Verify(x => x.Discover<ITestService>(assembly, LifeCycle.Transient), Times.Once);
+			_registryMock.Verify(x => x.Discover<ITestService>(assembly, _container.DefaultLifeCycle), Times.Once);
 		}
 
 		[Test]
@@ -54,10 +62,10 @@ namespace Fte.Ioc.Tests.Facade
 		}
 
 		[Test]
-		public void Register_GenericOneTypeWithoutParameter_CallsServiceWithTransientLifeCycle()
+		public void Register_GenericOneTypeWithoutParameter_CallsServiceWithDefaultLifeCycle()
 		{
 			_container.Register<TestService>();
-			_registryMock.Verify(x => x.Register<TestService, TestService>(LifeCycle.Transient), Times.Once);
+			_registryMock.Verify(x => x.Register<TestService, TestService>(_container.DefaultLifeCycle), Times.Once);
 		}
 
 		[Test]
@@ -68,14 +76,14 @@ namespace Fte.Ioc.Tests.Facade
 		}
 
 		[Test]
-		public void Register_GenericTwoTypesWithoutParameter_CallsServiceWithTransientLifeCycle()
+		public void Register_GenericTwoTypesWithoutParameter_CallsServiceWithDefaultLifeCycle()
 		{
 			_container.Register<ITestService, TestService>();
-			_registryMock.Verify(x => x.Register<ITestService, TestService>(LifeCycle.Transient), Times.Once);
+			_registryMock.Verify(x => x.Register<ITestService, TestService>(_container.DefaultLifeCycle), Times.Once);
 		}
 
 		[Test]
-		public void Register_GenericTwoTypesWithtParameter_CallsServiceWithCorrectLifeCycle()
+		public void Register_GenericTwoTypesWithParameter_CallsServiceWithCorrectLifeCycle()
 		{
 			_container.Register<ITestService, TestService>(LifeCycle.Singleton);
 			_registryMock.Verify(x => x.Register<ITestService, TestService>(LifeCycle.Singleton), Times.Once);

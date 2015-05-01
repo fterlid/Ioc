@@ -7,7 +7,6 @@ namespace Fte.Ioc.Facade
 {
 	internal class Container : IContainer
 	{
-		private const LifeCycle DefaultLifeCycle = LifeCycle.Transient;
 		private readonly ITypeRegistry _typeRegistry;
 		private readonly ITypeResolver _typeResolver;
 
@@ -19,6 +18,8 @@ namespace Fte.Ioc.Facade
 			_typeRegistry = typeRegistry;
 			_typeResolver = typeResolver;
 		}
+
+		public LifeCycle DefaultLifeCycle => LifeCycle.Transient;
 
 		public void Discover<T>(Assembly assembly) where T : class
 		{

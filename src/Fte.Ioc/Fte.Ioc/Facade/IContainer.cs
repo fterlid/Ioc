@@ -5,6 +5,8 @@ namespace Fte.Ioc.Facade
 {
 	public interface IContainer
 	{
+		LifeCycle DefaultLifeCycle { get; }
+
 		void Discover<T>(Assembly assembly) where T : class;
 
 		void Discover<T>(Assembly assembly, LifeCycle lifeCycle) where T : class;
