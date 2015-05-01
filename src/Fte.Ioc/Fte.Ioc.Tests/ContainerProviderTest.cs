@@ -1,12 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 
 namespace Fte.Ioc.Tests
 {
-	[TestClass]
+	[TestFixture]
 	public class ContainerProviderTest
 	{
-		[TestMethod]
-		public void GetContainer_MethodIsCalled_ReturnsNonNullObject()
+		[Test]
+		public void GetContainer_WhenCalled_ReturnsNonNullObject()
 		{
 			var container = ContainerProvider.GetContainer();
 			Assert.IsNotNull(container);
