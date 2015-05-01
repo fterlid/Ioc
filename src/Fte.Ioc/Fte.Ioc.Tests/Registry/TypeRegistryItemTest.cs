@@ -1,25 +1,25 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Fte.Ioc.Registry;
 using Fte.Ioc.Tests.Utils.TestServices;
+using NUnit.Framework;
 
 namespace Fte.Ioc.Tests.Registry
 {
-	[TestClass]
+	[TestFixture]
 	public class TypeRegistryItemTest
 	{
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
+		[Test]
 		public void Ctor_AbstractionTypeAsNull_ThrowsException()
 		{
-			var item = new TypeRegistryItem(null, typeof(TestService), LifeCycle.Singleton);
+			var ex = Assert.Catch<ArgumentNullException>(() => new TypeRegistryItem(null, typeof (TestService), LifeCycle.Singleton));
+			StringAssert.Contains("abstractionType", ex.Message);
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
+		[Test]
 		public void Ctor_ConcreteTypeAsNull_ThrowsException()
 		{
-			var item = new TypeRegistryItem(typeof(ITestService), null, LifeCycle.Singleton);
+			var ex = Assert.Catch<ArgumentNullException>(() => new TypeRegistryItem(typeof (ITestService), null, LifeCycle.Singleton));
+			StringAssert.Contains("concreteType", ex.Message);
 		}
 	}
 }
