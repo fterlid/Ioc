@@ -3,18 +3,18 @@ using Fte.Ioc.Exceptions;
 using Fte.Ioc.ObjectManagement;
 using Fte.Ioc.Registry;
 using Fte.Ioc.Tests.Utils.TestServices;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Fte.Ioc.Tests.ObjectManagement
 {
-	[TestClass]
+	[TestFixture]
 	public class ObjectManagerTest
 	{
 		private IObjectManager _manager;
 		private TypeRegistryItem _singletonRegItem;
 		private TypeRegistryItem _transientRegItem;
 
-		[TestInitialize]
+		[SetUp]
 		public void TestInitialize()
 		{
 			_manager = new ObjectManager();
@@ -22,29 +22,29 @@ namespace Fte.Ioc.Tests.ObjectManagement
 			_transientRegItem = new TypeRegistryItem(typeof(ITestService), typeof(TestService), LifeCycle.Transient);
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
+		[Test]
 		public void Create_RegistryItemAsNull_ThrowsException()
 		{
-			_manager.Create(null, new object[0]);
+			var ex = Assert.Catch<ArgumentNullException>(() => _manager.Create(null, new object[0]));
+			StringAssert.Contains("registryItem", ex.Message);
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
+		[Test]
 		public void Create_ConstructorParamsArrayAsNull_ThrowsException()
 		{
-			_manager.Create(_transientRegItem, null);
+			var ex = Assert.Catch<ArgumentNullException>(() => _manager.Create(_transientRegItem, null));
+			StringAssert.Contains("constructorParams", ex.Message);
 		}
 
-		[TestMethod]
+		[Test]
 		public void Create_ConcreteTypeAsInput_ReturnsObjectOfInputType()
 		{
 			var obj = _manager.Create(_transientRegItem, new object[0]);
 
-			Assert.IsInstanceOfType(obj, typeof(TestService));
+			Assert.IsInstanceOf<TestService>(obj);
 		}
 
-		[TestMethod]
+		[Test]
 		public void Create_TypeHasSingletonLifeCycle_ObjectIsCreatedOnce()
 		{
 			var obj1 = _manager.Create(_singletonRegItem, new object[0]);
@@ -54,7 +54,7 @@ namespace Fte.Ioc.Tests.ObjectManagement
 			Assert.AreSame(obj1, obj2);
 		}
 
-		[TestMethod]
+		[Test]
 		public void Create_TypeHasTransientLifeCycle_ObjectIsCreatedOnEachCall()
 		{
 			var obj1 = _manager.Create(_transientRegItem, new object[0]);
@@ -64,44 +64,49 @@ namespace Fte.Ioc.Tests.ObjectManagement
 			Assert.AreNotSame(obj1, obj2);
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
+		[Test]
 		public void HasInstance_RegistryItemAsNull_ThrowsException()
 		{
-			_manager.HasInstance(null);
+			var ex = Assert.Catch<ArgumentNullException>(() => _manager.HasInstance(null));
+			StringAssert.Contains("registryItem", ex.Message);
 		}
 
-		[TestMethod]
+		[Test]
 		public void HasInstance_TypeHasSingletonLifeCycle_FalseBeforeCreateHasBeenCalled()
 		{
 			var result = _manager.HasInstance(_singletonRegItem);
-			Assert.IsFalse(result, "HasInstance should return false if object has not yet been created.");
+
+			Assert.IsFalse(result);
 		}
 
-		[TestMethod]
+		[Test]
 		public void HasInstance_TypeHasSingletonLifeCycle_TrueAfterCreateHasBeenCalled()
 		{
 			_manager.Create(_singletonRegItem, new object[0]);
+
 			var result = _manager.HasInstance(_singletonRegItem);
-			Assert.IsTrue(result, "HasInstance should return true if object has been created.");
+
+			Assert.IsTrue(result);
 		}
 
-		[TestMethod]
+		[Test]
 		public void HasInstance_TypeHasTransientLifeCycle_False()
 		{
 			_manager.Create(_transientRegItem, new object[0]);
+
 			var result = _manager.HasInstance(_transientRegItem);
-			Assert.IsFalse(result, "HasInstance should return false if object is not registered as singleton.");
+
+			Assert.IsFalse(result);
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
+		[Test]
 		public void GetInstance_RegistryItemAsNull_ThrowsException()
 		{
-			_manager.GetInstance(null);
+			var ex = Assert.Catch<ArgumentNullException>(() => _manager.GetInstance(null));
+			StringAssert.Contains("registryItem", ex.Message);
 		}
 
-		[TestMethod]
+		[Test]
 		public void GetInstance_SingletonHasBeenCreated_AlwaysReturnsSameObject()
 		{
 			_manager.Create(_singletonRegItem, new object[0]);
@@ -113,11 +118,10 @@ namespace Fte.Ioc.Tests.ObjectManagement
 			Assert.AreSame(obj1, obj2);
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof(ObjectNotCreatedException))]
+		[Test]
 		public void GetInstance_SingletonHasNotBeenCreated_ThrowsException()
 		{
-			_manager.GetInstance(_singletonRegItem);
+			Assert.Catch<ObjectNotCreatedException>(() => _manager.GetInstance(_singletonRegItem));
 		}
 	}
 }
