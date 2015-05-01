@@ -59,7 +59,7 @@ namespace Fte.Ioc.Tests.Resolver
 		}
 
 		[Test]
-		public void Resolve_TypeWithDefaultConstructorIsRegistered_ObjectIsResolved()
+		public void Resolve_TypeWithDefaultConstructor_ObjectIsResolved()
 		{
 			RegisterType(typeof(ITestService), typeof(TestService), LifeCycle.Singleton);
 
@@ -69,7 +69,7 @@ namespace Fte.Ioc.Tests.Resolver
 		}
 
 		[Test]
-		public void Resolve_TypeWithRegisteredDependencyIsRegistered_ObjectIsResolved()
+		public void Resolve_TypeWithRegisteredDependency_ObjectIsResolved()
 		{
 			RegisterType(typeof(ITestService), typeof(TestService), LifeCycle.Singleton);
 			RegisterType(typeof(IOtherTestService), typeof(OtherTestService), LifeCycle.Singleton);
