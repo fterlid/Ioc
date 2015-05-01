@@ -52,7 +52,7 @@ namespace Fte.Ioc.Resolver
 					var children = GetConstructorParameterItems(current.RegistryItem);
 					foreach (var child in children)
 					{
-						if (dfsStack.Any(n => n.RegistryItem.AbstractionType == child.AbstractionType))
+						if (dfsStack.Any(n => n.RegistryItem.AbstractionType == child.AbstractionType && n.Discovered))
 						{
 							throw new CircularDependencyException();
 						}

@@ -143,6 +143,21 @@ namespace Fte.Ioc.Tests.Resolver
 			});
 		}
 
+		[Test]
+		public void Resolve_MultipleTypesShareDependency_ResolvesObject()
+		{
+			RegisterType(typeof(ComplexLegalDependency), typeof(ComplexLegalDependency), LifeCycle.Transient);
+			RegisterType(typeof(ComplexLegalNodeA), typeof(ComplexLegalNodeA), LifeCycle.Transient);
+			RegisterType(typeof(ComplexLegalNodeB), typeof(ComplexLegalNodeB), LifeCycle.Transient);
+
+			_resolver.Resolve(typeof (ComplexLegalDependency));
+
+			_objectManagerMock.Verify(x => x.Create(
+				It.Is<TypeRegistryItem>(item => item.AbstractionType == typeof(ComplexLegalDependency)), 
+				It.IsAny<object[]>()), 
+				Times.Once);
+		}
+
 		private void RegisterType(Type abstraction, Type concrete, LifeCycle lifeCycle)
 		{
 			var testServiceItem = new TypeRegistryItem(abstraction, concrete, lifeCycle);
