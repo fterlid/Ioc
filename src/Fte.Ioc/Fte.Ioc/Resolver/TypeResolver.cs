@@ -37,6 +37,7 @@ namespace Fte.Ioc.Resolver
 
 		private object GetDependencyGraphRootInstance(TypeRegistryItem typeRegistryItem)
 		{
+			// This algorithm is based on topological sorting by doing a depth first search.
 			// Instead of maintaining a topological sort of the nodes in the dependency graph,
 			// instances of the nodes are stored in a dictionary.
 			var dependencyInstances = new Dictionary<TypeRegistryItem, object>();
