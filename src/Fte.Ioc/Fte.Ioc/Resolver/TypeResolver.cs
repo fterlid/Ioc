@@ -37,33 +37,30 @@ namespace Fte.Ioc.Resolver
 
 		private object GetDependencyGraphRootInstance(TypeRegistryItem typeRegistryItem)
 		{
-			// This algorithm is based on topological sorting by doing a depth first search.
-			// Instead of maintaining a topological sort of the nodes in the dependency graph,
-			// instances of the nodes are stored in a dictionary.
 			var dependencyInstances = new Dictionary<TypeRegistryItem, object>();
 
-			var dfsStack = new Stack<DependencyNode>();
-			dfsStack.Push(new DependencyNode(typeRegistryItem));
+			var nodeStack = new Stack<DependencyNode>();
+			nodeStack.Push(new DependencyNode(typeRegistryItem));
 
-			while (dfsStack.Count > 0)
+			while (nodeStack.Count > 0)
 			{
-				var current = dfsStack.Peek();
+				var current = nodeStack.Peek();
 				if (!current.Discovered)
 				{
 					var children = GetConstructorParameterItems(current.RegistryItem);
 					foreach (var child in children)
 					{
-						if (dfsStack.Any(n => n.Discovered && n.RegistryItem.AbstractionType == child.AbstractionType))
+						if (nodeStack.Any(n => n.Discovered && n.RegistryItem.AbstractionType == child.AbstractionType))
 						{
 							throw new CircularDependencyException();
 						}
-						dfsStack.Push(new DependencyNode(child));
+						nodeStack.Push(new DependencyNode(child));
 					}
 					current.Discovered = true;
 				}
 				else
 				{
-					dfsStack.Pop();
+					nodeStack.Pop();
 					dependencyInstances[current.RegistryItem] = GetInstance(current.RegistryItem, dependencyInstances);
 				}
 			}
