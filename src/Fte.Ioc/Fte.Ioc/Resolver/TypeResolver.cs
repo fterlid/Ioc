@@ -45,7 +45,12 @@ namespace Fte.Ioc.Resolver
 			while (nodeStack.Count > 0)
 			{
 				var current = nodeStack.Peek();
-				if (!current.Discovered)
+				if(current.Discovered)
+				{
+					nodeStack.Pop();
+					dependencyInstances[current.RegistryItem] = GetInstance(current.RegistryItem, dependencyInstances);
+				}
+				else
 				{
 					var children = GetConstructorParameterItems(current.RegistryItem);
 					foreach (var child in children)
@@ -57,11 +62,6 @@ namespace Fte.Ioc.Resolver
 						nodeStack.Push(new DependencyNode(child));
 					}
 					current.Discovered = true;
-				}
-				else
-				{
-					nodeStack.Pop();
-					dependencyInstances[current.RegistryItem] = GetInstance(current.RegistryItem, dependencyInstances);
 				}
 			}
 
